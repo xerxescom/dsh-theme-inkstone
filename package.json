@@ -1,0 +1,59 @@
+{
+  "name": "dsh-theme-inkstone",
+  "version": "0.1.0",
+  "description": "Inkstone (砚) — a stone-ink and jade theme plugin for the DeepSeek Harness web client: remaps the --dsw-* palette through one token override layer, no build step required to run it.",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "deepseek",
+    "harness",
+    "dsh",
+    "dsh-plugin",
+    "dsh-theme",
+    "theme"
+  ],
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "preview.png",
+    "screenshots.json"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-theme"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/cordis": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "palette": "node tools/palette.mjs",
+    "build:client": "node tools/build-client.mjs",
+    "preview": "node tools/preview.mjs && node tools/render-preview.mjs",
+    "check": "node tools/check.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xerxescom/dsh-theme-inkstone.git"
+  }
+}

@@ -1,0 +1,8 @@
+# dsh bundle patch: inserts this plugin into a profile's layer stack.
+#
+# The browser half ships through the package's `./client` export; this row is
+# what makes the Loader aware of the package at all, which is in turn what puts
+# the client bundle into the boot graph.
+- insert:
+    - id: dsh-theme-inkstone
+      name: 'dsh-theme-inkstone'
