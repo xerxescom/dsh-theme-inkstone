@@ -1,0 +1,761 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inkstone 砚 — 预览</title>
+<style>
+[data-mode="light"] {
+  color-scheme: light;
+  --dsw-alias-bg-base: #f7f6f3;
+  --dsw-alias-bg-document-preview: #eaeae7;
+  --dsw-alias-bg-layer-1: #fbfbfb;
+  --dsw-alias-bg-layer-2: #fbfbfb;
+  --dsw-alias-bg-layer-3: #fbfbfb;
+  --dsw-alias-bg-module-platform: #f2f2f1;
+  --dsw-alias-bg-multi-select: #f2f2f1;
+  --dsw-alias-bg-overlay: #e9e8e4;
+  --dsw-alias-border-inverted: #fbfbfb;
+  --dsw-alias-border-inverted2: #f6f6f5;
+  --dsw-alias-brand-primary: #12110f;
+  --dsw-alias-brand-primary-invert: #12110f;
+  --dsw-alias-brand-primary-new-colorprimary-new-color: #0874a2;
+  --dsw-alias-brand-text: #12110f;
+  --dsw-alias-button-contrast-fill: #53524f;
+  --dsw-alias-button-elevated-fill: #fbfbfb;
+  --dsw-alias-button-floating-fill: #fbfbfb;
+  --dsw-alias-button-floating-hover: #efefed;
+  --dsw-alias-button-ghost-active-border: #9a9993;
+  --dsw-alias-button-ghost-active-fill: #eaeae7;
+  --dsw-alias-button-ghost-active-hover: #e9e8e4;
+  --dsw-alias-button-info-fill: #0874a2;
+  --dsw-alias-button-info-hover: #0a74a1;
+  --dsw-alias-button-primary-dimmed: #eaeae7;
+  --dsw-alias-button-primary-fill: #12110f;
+  --dsw-alias-button-primary-hover: #43423f;
+  --dsw-alias-illustration-background: #f3f3f1;
+  --dsw-alias-illustration-backing: #cfcdc7;
+  --dsw-alias-illustration-detail: #cfcdc7;
+  --dsw-alias-illustration-inset: #ecece9;
+  --dsw-alias-illustration-shadow: #ecece9;
+  --dsw-alias-illustration-surface: #ecece9;
+  --dsw-alias-interactive-bg-hover-solid: #efefed;
+  --dsw-alias-label-caption: #8d8a7d;
+  --dsw-alias-label-dimmed: #e2e1dc;
+  --dsw-alias-label-document-preview: #53524f;
+  --dsw-alias-label-primary: #12110f;
+  --dsw-alias-label-primary-bluish: #00345f;
+  --dsw-alias-label-primary-dimmed: #151514;
+  --dsw-alias-label-primary-foreground: #ffffff;
+  --dsw-alias-label-primary-inverted: #fbfbfb;
+  --dsw-alias-label-secondary: #53524f;
+  --dsw-alias-label-tertiary: #6f6e6a;
+  --dsw-alias-link: #0874a2;
+  --dsw-alias-markdown-citation: #eaeae7;
+  --dsw-alias-markdown-code-block: #f6f6f5;
+  --dsw-alias-markdown-code-block-banner: #f6f6f5;
+  --dsw-alias-markdown-code-segment-selected: #fbfbfb;
+  --dsw-alias-markdown-code-segment-unselected: #efefed;
+  --dsw-alias-markdown-inline-code: #f6f6f6;
+  --dsw-alias-markdown-placeholder: #f2f2f1;
+  --dsw-alias-markdown-tag: #efefed;
+  --dsw-alias-menu-icon: #333332;
+  --dsw-alias-scrollbar-bg-l1: #e1e1e1;
+  --dsw-alias-scrollbar-bg-l2: #e1e1e1;
+  --dsw-alias-scrollbar-hover-l1: #d0d0d0;
+  --dsw-alias-scrollbar-hover-l2: #d0d0d0;
+  --dsw-alias-state-business-primary: #0874a2;
+  --dsw-alias-state-business-tertiary: #daecf6;
+  --dsw-alias-state-done-primary: #8045ca;
+  --dsw-alias-state-idle-primary: #d0d0d0;
+  --dsw-alias-state-warn-label: #988b83;
+  --dsw-alias-switch-thumb: #fbfbfb;
+  --dsw-alias-toast-bg: #333332;
+  --dsw-alias-toast-label: #fbfbfb;
+  --dsw-alias-tooltip-bg: #2a2928;
+  --dsw-specific-bubble: #e5f1f8;
+  --dsw-specific-bubble-highlight: #c3e3f6;
+  --dsw-specific-input-major: #fbfbfb;
+  --dsw-specific-login-input: #f6f6f5;
+  --dsw-specific-selector: #f2f2f1;
+  --dsw-specific-sidebar-fill: #f6f6f5;
+  --dsw-specific-sidebar-nav-item-active: #eaeae7;
+  --dsw-specific-sidebar-nav-item-active-accent: #daecf6;
+  --dsw-specific-tip: #f2f2f1;
+  --dsw-static-blue-100: #d6e7f8;
+  --dsw-static-blue-300: #90c2f5;
+  --dsw-static-blue-400: #56a4f0;
+  --dsw-static-blue-450: #3494ec;
+  --dsw-static-blue-50: #ebf2fa;
+  --dsw-static-blue-500: #0586e5;
+  --dsw-static-blue-50p: #e5effa;
+  --dsw-static-blue-600: #0a6fbe;
+  --dsw-static-blue-75: #e0edfa;
+  --dsw-static-blue-800: #044d86;
+  --dsw-static-blue-900: #00345f;
+  --dsw-static-blue-950: #00274a;
+  --dsw-static-deepseek-100: #daecf6;
+  --dsw-static-deepseek-200: #c3e3f6;
+  --dsw-static-deepseek-300: #94cff2;
+  --dsw-static-deepseek-400: #0a74a1;
+  --dsw-static-deepseek-450: #0b74a1;
+  --dsw-static-deepseek-50: #e5f1f8;
+  --dsw-static-deepseek-500: #0874a2;
+  --dsw-static-deepseek-600: #05719d;
+  --dsw-static-deepseek-700-delete: #045375;
+  --dsw-static-deepseek-800: #234254;
+  --dsw-static-deepseek-900: #1d313c;
+  --dsw-static-neutral-00: #fbfbfb;
+  --dsw-static-neutral-100: #f1f1f1;
+  --dsw-static-neutral-1000: #000000;
+  --dsw-static-neutral-150: #e9e9e9;
+  --dsw-static-neutral-200: #e1e1e1;
+  --dsw-static-neutral-250: #d8d8d8;
+  --dsw-static-neutral-300: #d0d0d0;
+  --dsw-static-neutral-400: #a0a09f;
+  --dsw-static-neutral-50: #f6f6f6;
+  --dsw-static-neutral-500: #7f7e7c;
+  --dsw-static-neutral-550: #646462;
+  --dsw-static-neutral-600: #525251;
+  --dsw-static-neutral-700: #393939;
+  --dsw-static-neutral-800: #262626;
+  --dsw-static-neutral-850: #1f1e1e;
+  --dsw-static-neutral-900: #0c0c0c;
+  --dsw-static-neutral-bluish-00: #fbfbfb;
+  --dsw-static-neutral-bluish-100: #eaeae7;
+  --dsw-static-neutral-bluish-1000: #12110f;
+  --dsw-static-neutral-bluish-150: #e9e8e4;
+  --dsw-static-neutral-bluish-200: #e2e1dc;
+  --dsw-static-neutral-bluish-300: #cfcecc;
+  --dsw-static-neutral-bluish-310: #cfcdc7;
+  --dsw-static-neutral-bluish-400: #b2b1ae;
+  --dsw-static-neutral-bluish-50: #f6f6f5;
+  --dsw-static-neutral-bluish-500: #9a9993;
+  --dsw-static-neutral-bluish-55: #f3f3f1;
+  --dsw-static-neutral-bluish-60: #f2f2f1;
+  --dsw-static-neutral-bluish-600: #6f6e6a;
+  --dsw-static-neutral-bluish-700: #53524f;
+  --dsw-static-neutral-bluish-75: #efefed;
+  --dsw-static-neutral-bluish-750: #43423f;
+  --dsw-static-neutral-bluish-800: #333332;
+  --dsw-static-neutral-bluish-850: #2a2928;
+  --dsw-static-neutral-bluish-875: #202020;
+  --dsw-static-neutral-bluish-90: #ecece9;
+  --dsw-static-neutral-bluish-900: #1b1b1b;
+  --dsw-static-neutral-bluish-950: #151514;
+  --dsw-static-violet-400: #aa8ae1;
+  --dsw-static-violet-600: #8045ca;
+  --shiki-background: #f6f6f5;
+  --shiki-foreground: #12110f;
+  --shiki-token-comment: #72716d;
+  --shiki-token-constant: #0a76b9;
+  --shiki-token-function: #614acf;
+  --shiki-token-keyword: #a83fa2;
+  --shiki-token-link: #0e78a7;
+  --shiki-token-parameter: #a55506;
+  --shiki-token-punctuation: #504f4c;
+  --shiki-token-string: #2e8136;
+  --shiki-token-string-expression: #317837;
+}
+[data-mode="dark"] {
+  color-scheme: dark;
+  --dsw-alias-bg-base: #14161a;
+  --dsw-alias-bg-document-preview: #e3e2e1;
+  --dsw-alias-bg-layer-1: #252524;
+  --dsw-alias-bg-layer-2: #2e2e2d;
+  --dsw-alias-bg-layer-3: #383837;
+  --dsw-alias-bg-module-platform: #383837;
+  --dsw-alias-bg-multi-select: #232322;
+  --dsw-alias-bg-overlay: #666562;
+  --dsw-alias-border-inverted: #ffffff;
+  --dsw-alias-border-inverted2: #fdfdfc;
+  --dsw-alias-brand-primary: #fdfdfc;
+  --dsw-alias-brand-primary-invert: #fdfdfc;
+  --dsw-alias-brand-primary-new-colorprimary-new-color: #0487bc;
+  --dsw-alias-brand-text: #fdfdfc;
+  --dsw-alias-button-contrast-fill: #fdfdfc;
+  --dsw-alias-button-elevated-fill: #484744;
+  --dsw-alias-button-floating-fill: #2e2e2d;
+  --dsw-alias-button-floating-hover: #383837;
+  --dsw-alias-button-ghost-active-border: #868581;
+  --dsw-alias-button-ghost-active-fill: #484744;
+  --dsw-alias-button-ghost-active-hover: #666562;
+  --dsw-alias-button-info-fill: #41b7f3;
+  --dsw-alias-button-info-hover: #0487bc;
+  --dsw-alias-button-primary-dimmed: #484744;
+  --dsw-alias-button-primary-fill: #fdfdfc;
+  --dsw-alias-button-primary-hover: #f1f0ee;
+  --dsw-alias-illustration-background: #2e2e2d;
+  --dsw-alias-illustration-backing: #484744;
+  --dsw-alias-illustration-detail: #868581;
+  --dsw-alias-illustration-inset: #484744;
+  --dsw-alias-illustration-shadow: #484744;
+  --dsw-alias-illustration-surface: #666562;
+  --dsw-alias-interactive-bg-hover-solid: #383837;
+  --dsw-alias-label-caption: #888578;
+  --dsw-alias-label-dimmed: #484744;
+  --dsw-alias-label-document-preview: #d6d5d3;
+  --dsw-alias-label-primary: #fdfdfc;
+  --dsw-alias-label-primary-bluish: #fdfdfc;
+  --dsw-alias-label-primary-dimmed: #f1f0ee;
+  --dsw-alias-label-primary-foreground: #12110f;
+  --dsw-alias-label-primary-inverted: #383837;
+  --dsw-alias-label-secondary: #d6d5d3;
+  --dsw-alias-label-tertiary: #b2b1ae;
+  --dsw-alias-link: #41b7f3;
+  --dsw-alias-markdown-citation: #383837;
+  --dsw-alias-markdown-code-block: #1b1b1b;
+  --dsw-alias-markdown-code-block-banner: #2e2e2d;
+  --dsw-alias-markdown-code-segment-selected: #383837;
+  --dsw-alias-markdown-code-segment-unselected: #1b1b1b;
+  --dsw-alias-markdown-inline-code: #2b2b2b;
+  --dsw-alias-markdown-placeholder: #2e2e2d;
+  --dsw-alias-markdown-tag: #2e2e2d;
+  --dsw-alias-menu-icon: #f1f0ee;
+  --dsw-alias-scrollbar-bg-l1: #3e3e3e;
+  --dsw-alias-scrollbar-bg-l2: #575756;
+  --dsw-alias-scrollbar-hover-l1: #575756;
+  --dsw-alias-scrollbar-hover-l2: #6a6968;
+  --dsw-alias-state-business-primary: #41b7f3;
+  --dsw-alias-state-business-tertiary: #284759;
+  --dsw-alias-state-done-primary: #b090e7;
+  --dsw-alias-state-idle-primary: #575756;
+  --dsw-alias-state-warn-label: #a89b92;
+  --dsw-alias-switch-thumb: #b2b1ae;
+  --dsw-alias-toast-bg: #484744;
+  --dsw-alias-toast-label: #ffffff;
+  --dsw-alias-tooltip-bg: #484744;
+  --dsw-specific-bubble: #2e2e2d;
+  --dsw-specific-bubble-highlight: #484744;
+  --dsw-specific-input-major: #2e2e2d;
+  --dsw-specific-login-input: #1b1b1b;
+  --dsw-specific-selector: #383837;
+  --dsw-specific-sidebar-fill: #1b1b1b;
+  --dsw-specific-sidebar-nav-item-active: #484744;
+  --dsw-specific-sidebar-nav-item-active-accent: #383837;
+  --dsw-specific-tip: #383837;
+  --dsw-static-blue-100: #ddedfe;
+  --dsw-static-blue-300: #96c8fc;
+  --dsw-static-blue-400: #5daaf7;
+  --dsw-static-blue-450: #3b9bf3;
+  --dsw-static-blue-50: #f3f9ff;
+  --dsw-static-blue-500: #008cf0;
+  --dsw-static-blue-50p: #edf6ff;
+  --dsw-static-blue-600: #0975c8;
+  --dsw-static-blue-75: #e8f3ff;
+  --dsw-static-blue-800: #06528e;
+  --dsw-static-blue-900: #003967;
+  --dsw-static-blue-950: #002c52;
+  --dsw-static-deepseek-100: #e1f2fd;
+  --dsw-static-deepseek-200: #cae9fd;
+  --dsw-static-deepseek-300: #9ad6f9;
+  --dsw-static-deepseek-400: #41b7f3;
+  --dsw-static-deepseek-450: #119ad4;
+  --dsw-static-deepseek-50: #ecf7ff;
+  --dsw-static-deepseek-500: #0487bc;
+  --dsw-static-deepseek-600: #0477a5;
+  --dsw-static-deepseek-700-delete: #06597d;
+  --dsw-static-deepseek-800: #284759;
+  --dsw-static-deepseek-900: #223642;
+  --dsw-static-neutral-00: #ffffff;
+  --dsw-static-neutral-100: #f8f8f8;
+  --dsw-static-neutral-1000: #000000;
+  --dsw-static-neutral-150: #f0f0f0;
+  --dsw-static-neutral-200: #e8e8e8;
+  --dsw-static-neutral-250: #dfdfdf;
+  --dsw-static-neutral-300: #d7d7d7;
+  --dsw-static-neutral-400: #a6a6a5;
+  --dsw-static-neutral-50: #fdfdfd;
+  --dsw-static-neutral-500: #858482;
+  --dsw-static-neutral-550: #6a6968;
+  --dsw-static-neutral-600: #575756;
+  --dsw-static-neutral-700: #3e3e3e;
+  --dsw-static-neutral-800: #2b2b2b;
+  --dsw-static-neutral-850: #232322;
+  --dsw-static-neutral-900: #111111;
+  --dsw-static-neutral-bluish-00: #ffffff;
+  --dsw-static-neutral-bluish-100: #f1f0ee;
+  --dsw-static-neutral-bluish-1000: #eaeae6;
+  --dsw-static-neutral-bluish-150: #efefeb;
+  --dsw-static-neutral-bluish-200: #e9e8e2;
+  --dsw-static-neutral-bluish-300: #d6d5d3;
+  --dsw-static-neutral-bluish-310: #d5d4ce;
+  --dsw-static-neutral-bluish-400: #b2b1ae;
+  --dsw-static-neutral-bluish-50: #fdfdfc;
+  --dsw-static-neutral-bluish-500: #a09f99;
+  --dsw-static-neutral-bluish-55: #fafaf8;
+  --dsw-static-neutral-bluish-60: #fdfdfc;
+  --dsw-static-neutral-bluish-600: #868581;
+  --dsw-static-neutral-bluish-700: #666562;
+  --dsw-static-neutral-bluish-75: #f6f5f4;
+  --dsw-static-neutral-bluish-750: #484744;
+  --dsw-static-neutral-bluish-800: #383837;
+  --dsw-static-neutral-bluish-850: #2e2e2d;
+  --dsw-static-neutral-bluish-875: #252524;
+  --dsw-static-neutral-bluish-90: #f3f2f0;
+  --dsw-static-neutral-bluish-900: #1b1b1b;
+  --dsw-static-neutral-bluish-950: #e3e2e1;
+  --dsw-static-violet-400: #b090e7;
+  --dsw-static-violet-600: #854bd1;
+  --shiki-background: #1b1b1b;
+  --shiki-foreground: #fdfdfc;
+  --shiki-token-comment: #b5b4af;
+  --shiki-token-constant: #4aacf6;
+  --shiki-token-function: #a39ef9;
+  --shiki-token-keyword: #e5a9df;
+  --shiki-token-link: #67c4f7;
+  --shiki-token-parameter: #f9aa73;
+  --shiki-token-punctuation: #d4d3d1;
+  --shiki-token-string: #80d683;
+  --shiki-token-string-expression: #9de59f;
+}
+
+:root { --gap: 16px; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  transition: background-color .25s, color .25s;
+}
+.mode { background: var(--dsw-alias-bg-base); color: var(--dsw-alias-label-primary); padding: 28px; }
+.mode[data-mode="light"] { color-scheme: light; }
+.mode[data-mode="dark"] { color-scheme: dark; }
+
+.label { font-size: 12px; color: var(--dsw-alias-label-tertiary); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
+.caption { font-size: 12px; color: var(--dsw-alias-label-caption); }
+.secondary { color: var(--dsw-alias-label-secondary); }
+a { color: var(--dsw-alias-link); }
+h1 { font-size: 20px; margin: 0 0 6px; }
+h2 { font-size: 15px; margin: 0 0 10px; font-weight: 600; }
+h3 { font-size: 13px; margin: 18px 0 8px; font-weight: 600; }
+
+.shell { display: grid; grid-template-columns: 220px 1fr 200px; gap: var(--gap); max-width: 1180px; margin: 0 auto; }
+@media (max-width: 1040px) { .shell { grid-template-columns: 1fr; } }
+
+.panel { border-radius: var(--dsw-radius-md); padding: 14px; }
+.sidebar { background: var(--dsw-specific-sidebar-fill); border: 1px solid var(--dsw-alias-border-l2); }
+.nav { display: flex; flex-direction: column; gap: 2px; font-size: 13px; }
+.nav div { padding: 6px 8px; border-radius: var(--dsw-radius-sm); }
+.nav .active { background: var(--dsw-specific-sidebar-nav-item-active); }
+.aside { background: var(--dsw-alias-bg-layer-2); border: 1px solid var(--dsw-alias-border-l2); font-size: 12px; }
+
+.turn { margin-bottom: 18px; font-size: 14px; line-height: 1.7; }
+.turn .who { font-size: 11px; color: var(--dsw-alias-label-tertiary); margin-bottom: 4px; }
+.bubble { background: var(--dsw-specific-bubble); border-radius: var(--dsw-radius-md); padding: 10px 14px; }
+.quote { border-left: 3px solid var(--dsw-alias-border-l3); background: var(--dsw-alias-markdown-citation); padding: 8px 12px; border-radius: 0 var(--dsw-radius-sm) var(--dsw-radius-sm) 0; margin: 10px 0; }
+.inline-code { background: var(--dsw-alias-markdown-inline-code); padding: 1px 5px; border-radius: 4px; font-family: var(--ds-font-family-code, Consolas, monospace); font-size: 12.5px; }
+
+.code {
+  background: var(--dsw-alias-markdown-code-block);
+  border: 1px solid var(--dsw-alias-border-l2);
+  border-radius: var(--dsw-radius-sm);
+  font-family: "SF Mono", "JetBrains Mono", Consolas, monospace;
+  font-size: 12.5px;
+  line-height: 1.65;
+  overflow: auto;
+}
+.code .banner { background: var(--dsw-alias-markdown-code-block-banner); padding: 6px 12px; border-bottom: 1px solid var(--dsw-alias-border-l1); font-size: 11px; color: var(--dsw-alias-label-tertiary); }
+.code pre { margin: 0; padding: 10px 12px; }
+.tok-k { color: var(--shiki-token-keyword); }
+.tok-f { color: var(--shiki-token-function); }
+.tok-s { color: var(--shiki-token-string); }
+.tok-c { color: var(--shiki-token-constant); }
+.tok-m { color: var(--shiki-token-comment); }
+.tok-p { color: var(--shiki-token-parameter); }
+.tok-x { color: var(--shiki-token-punctuation); }
+.tok-l { color: var(--shiki-token-link); }
+
+.composer { background: var(--dsw-specific-input-major); border: 1px solid var(--dsw-alias-border-l2); border-radius: var(--dsw-radius-lg); padding: 10px 14px; color: var(--dsw-alias-label-secondary); font-size: 13px; margin-top: 16px; }
+.status { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; font-size: 12px; }
+.pill { border-radius: 999px; padding: 2px 10px; }
+.pill.ok { background: var(--dsw-alias-state-success-tertiary); color: var(--dsw-alias-state-success-primary); }
+.pill.warn { background: var(--dsw-alias-state-warn-tertiary); color: var(--dsw-alias-state-warn-label); }
+.pill.bad { color: var(--dsw-alias-state-error-primary); }
+.pill.info { background: var(--dsw-alias-state-business-tertiary); color: var(--dsw-alias-state-business-primary); }
+
+.menu { background: var(--dsw-specific-menu); border: 1px solid var(--dsw-alias-border-l3); border-radius: var(--dsw-radius-md); padding: 6px; font-size: 13px; box-shadow: var(--dsw-elevation-panel); }
+.menu .item { padding: 6px 10px; border-radius: var(--dsw-radius-sm); }
+.menu .item:hover { background: var(--dsw-alias-interactive-bg-hover); }
+.menu .head { color: var(--dsw-alias-menu-icon); font-size: 11px; padding: 4px 10px; background: var(--dsw-alias-menu-group-header-fill); }
+
+table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--dsw-alias-border-l1); }
+th { color: var(--dsw-alias-label-tertiary); font-weight: 600; }
+.num { text-align: right; }
+.pass { color: var(--dsw-alias-state-success-primary); }
+.inherit { color: var(--dsw-alias-state-warn-label); }
+.fail { color: var(--dsw-alias-state-error-primary); }
+
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(28px, 1fr)); gap: 4px; }
+.swatch { height: 26px; border-radius: 4px; border: 1px solid var(--dsw-alias-border-l1); }
+
+.bg-demo { position: relative; height: 260px; border-radius: var(--dsw-radius-md); overflow: hidden; border: 1px solid var(--dsw-alias-border-l2); }
+.bg-demo::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(135deg, #2c5364, #0f2027 55%, #c79081), radial-gradient(circle at 70% 30%, #f6d365, transparent 60%); background-blend-mode: screen; }
+.bg-demo .wash { position: absolute; inset: 0; }
+.bg-demo .content { position: relative; padding: 20px; }
+input[type=range] { width: 220px; vertical-align: middle; }
+.toolbar { display: flex; gap: 16px; align-items: center; margin-bottom: 10px; font-size: 12px; color: var(--dsw-alias-label-secondary); flex-wrap: wrap; }
+.foot { max-width: 1180px; margin: 0 auto; padding: 0 28px 40px; font-size: 12px; color: var(--dsw-alias-label-tertiary); }
+</style>
+</head>
+<body>
+
+<section class="mode" data-mode="light">
+<div class="shell">
+  <aside class="sidebar panel">
+    <div class="label">会话</div>
+    <div class="nav">
+      <div class="active">今天的会话</div>
+      <div>主题插件方案</div>
+      <div>配色可读性</div>
+      <div class="secondary" style="font-size:12px;margin-top:8px">更早</div>
+      <div>上一次排查</div>
+    </div>
+  </aside>
+
+  <main class="panel" style="background: var(--dsw-alias-bg-base); border:1px solid var(--dsw-alias-border-l1)">
+    <h1>浅色 · 砚</h1>
+    <div class="caption">正文 17.5:1 ·
+      次要 7.2:1 ·
+      链接 4.8:1</div>
+
+    <div class="turn" style="margin-top:16px">
+      <div class="who">你</div>
+      <div class="bubble">帮我看看这段配置为什么链接颜色这么淡。</div>
+    </div>
+
+    <div class="turn">
+      <div class="who">助手</div>
+      <p style="margin:0 0 8px">因为强调色在浅色背景上的对比度只有 <span class="inline-code">3.9:1</span>，低于正文的 4.5:1 下限。这套主题把链接抬到了 4.8:1，色相不变，只挪了亮度。</p>
+      <div class="quote">引用块的颜色也一并抬高了，否则引用里的链接会比正文更淡。</div>
+      <div class="code">
+        <div class="banner">ts · inkstone.ts</div>
+<pre><span class="tok-m">// 可读性优先：改色相，不改亮度层级</span>
+<span class="tok-k">export</span> <span class="tok-k">function</span> <span class="tok-f">recolour</span><span class="tok-x">(</span>seed<span class="tok-x">:</span> <span class="tok-c">string</span><span class="tok-x">,</span> <span class="tok-p">hue</span><span class="tok-x">:</span> <span class="tok-c">number</span><span class="tok-x">)</span> <span class="tok-x">{</span>
+  <span class="tok-k">const</span> <span class="tok-p">target</span> <span class="tok-x">=</span> <span class="tok-s">'4.5:1'</span><span class="tok-x">;</span>
+  <span class="tok-k">return</span> <span class="tok-f">matchContrast</span><span class="tok-x">(</span>seed<span class="tok-x">,</span> hue<span class="tok-x">,</span> <span class="tok-p">target</span><span class="tok-x">);</span>
+<span class="tok-x">}</span></pre>
+      </div>
+      <div class="status">
+        <span class="pill ok">38 组配对全过</span>
+        <span class="pill warn">警告文字 3.1:1</span>
+        <span class="pill info">代码 9 色</span>
+        <span class="pill bad">无破口</span>
+      </div>
+    </div>
+
+    <div class="composer">输入消息…（正文 18.2:1）</div>
+  </main>
+
+  <aside class="aside panel">
+    <div class="label">设置</div>
+    <h3 style="margin-top:6px">外观</h3>
+    <div class="secondary">浅色 / 深色 / 跟随系统</div>
+    <h3>菜单</h3>
+    <div class="menu">
+      <div class="head">主题</div>
+      <div class="item">砚 · 浅色</div>
+      <div class="item">砚 · 深色</div>
+      <div class="head">字体</div>
+      <div class="item">正文字体</div>
+    </div>
+  </aside>
+</div>
+</section>
+
+<section class="mode" data-mode="dark">
+<div class="shell">
+  <aside class="sidebar panel">
+    <div class="label">会话</div>
+    <div class="nav">
+      <div class="active">今天的会话</div>
+      <div>主题插件方案</div>
+      <div>配色可读性</div>
+      <div class="secondary" style="font-size:12px;margin-top:8px">更早</div>
+      <div>上一次排查</div>
+    </div>
+  </aside>
+
+  <main class="panel" style="background: var(--dsw-alias-bg-base); border:1px solid var(--dsw-alias-border-l1)">
+    <h1>深色 · 砚</h1>
+    <div class="caption">正文 17.8:1 ·
+      次要 12.3:1 ·
+      链接 8.0:1</div>
+
+    <div class="turn" style="margin-top:16px">
+      <div class="who">你</div>
+      <div class="bubble">深色模式下气泡和输入框会不会糊在一起？</div>
+    </div>
+
+    <div class="turn">
+      <div class="who">助手</div>
+      <p style="margin:0 0 8px">不会。气泡 1.33:1，输入框 1.33:1，都比表面低一档但看得见。</p>
+      <div class="code">
+        <div class="banner">css · tokens</div>
+<pre><span class="tok-m">/* 深色下强调色反向提亮 */</span>
+<span class="tok-x">--</span><span class="tok-f">dsw-alias-link</span><span class="tok-x">:</span> <span class="tok-c">#41b7f3</span><span class="tok-x">;</span>
+<span class="tok-x">--</span><span class="tok-f">dsw-alias-bg-base</span><span class="tok-x">:</span> <span class="tok-s">#14161a</span><span class="tok-x">;</span></pre>
+      </div>
+      <div class="status">
+        <span class="pill ok">对比度全过</span>
+        <span class="pill info">层级顺序正确</span>
+      </div>
+    </div>
+
+    <div class="composer">输入消息…</div>
+  </main>
+
+  <aside class="aside panel">
+    <div class="label">设置</div>
+    <h3 style="margin-top:6px">外观</h3>
+    <div class="secondary">浅色 / 深色 / 跟随系统</div>
+    <h3>菜单</h3>
+    <div class="menu">
+      <div class="head">主题</div>
+      <div class="item">砚 · 浅色</div>
+      <div class="item">砚 · 深色</div>
+    </div>
+  </aside>
+</div>
+</section>
+
+<section class="foot">
+  <h2 style="margin-top:26px">背景图 · 遮罩预览</h2>
+  <div class="toolbar">
+    <label>遮罩强度 <input id="strength" type="range" min="55" max="98" value="82"> <span id="strengthValue">82%</span></label>
+    <span class="caption">预览用渐变模拟一张图；遮罩颜色就是表面色，所以图再花也不改正文对比度。</span>
+  </div>
+  <div class="bg-demo" id="bgDemo">
+    <div class="wash"></div>
+    <div class="content">
+      <div class="label">会话</div>
+      <div style="font-size:14px;line-height:1.7">这张图会被一层表面色遮住，再叠一点模糊。文字永远读在遮罩之上，而不是图上。</div>
+    </div>
+  </div>
+
+  <h2 style="margin-top:26px">可读性配对（门禁结果）</h2>
+  <table>
+    <thead><tr><th>模式</th><th>场景</th><th class="num">实测</th><th class="num">下限</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td>浅色</td><td>正文</td><td class="num">17.46</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>正文</td><td class="num">17.80</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>次要文字</td><td class="num">7.23</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>次要文字</td><td class="num">12.35</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>辅助文字</td><td class="num">4.72</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>辅助文字</td><td class="num">8.45</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>说明文字</td><td class="num">3.20</td><td class="num">3.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>说明文字</td><td class="num">4.89</td><td class="num">3.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>链接</td><td class="num">4.82</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>链接</td><td class="num">8.01</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>用户气泡</td><td class="num">16.42</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>用户气泡</td><td class="num">13.36</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>引用块</td><td class="num">15.66</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>引用块</td><td class="num">11.53</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>代码块</td><td class="num">17.45</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>代码块</td><td class="num">16.92</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>行内代码</td><td class="num">17.46</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>行内代码</td><td class="num">13.91</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>代码块标题条</td><td class="num">17.45</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>代码块标题条</td><td class="num">13.36</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>输入框</td><td class="num">18.24</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>输入框</td><td class="num">13.36</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>输入框占位</td><td class="num">7.55</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>输入框占位</td><td class="num">9.27</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>侧栏</td><td class="num">17.45</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>侧栏</td><td class="num">16.92</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>侧栏次级</td><td class="num">7.23</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>侧栏次级</td><td class="num">11.74</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>侧栏选中项</td><td class="num">15.66</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>侧栏选中项</td><td class="num">9.13</td><td class="num">7.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>Toast 文字</td><td class="num">12.22</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>Toast 文字</td><td class="num">9.29</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>业务色（链接/按钮）</td><td class="num">4.82</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>业务色（链接/按钮）</td><td class="num">8.01</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>警告文字</td><td class="num">3.06</td><td class="num">3.0</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>警告文字</td><td class="num">6.70</td><td class="num">3.0</td><td class="pass">PASS</td></tr>
+      <tr><td>浅色</td><td>反色按钮</td><td class="num">7.81</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+      <tr><td>深色</td><td>反色按钮</td><td class="num">18.54</td><td class="num">4.5</td><td class="pass">PASS</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:26px">代码高亮（对代码块）</h2>
+  <table>
+    <thead><tr><th>模式</th><th>角色</th><th class="num">实测</th><th>结果</th></tr></thead>
+    <tbody>
+      <tr><td>light</td><td><code>constant</code></td><td class="num">4.51</td><td class="pass">PASS</td></tr>
+      <tr><td>dark</td><td><code>constant</code></td><td class="num">6.99</td><td class="pass">PASS</td></tr>
+      <tr><td>light</td><td><code>string</code></td><td class="num">4.51</td><td class="pass">PASS</td></tr>
+      <tr><td>dark</td><td><code>string</code></td><td class="num">9.73</td><td class="pass">PASS</td></tr>
+      <tr><td>light</td><td><code>string-expression</code></td><td class="num">5.01</td><td class="pass">PASS</td></tr>
+      <tr><td>dark</td><td><code>string-expression</code></td><td class="num">11.60</td><td class="pass">PASS</td></tr>
+      <tr><td>light</td><td><code>comment</code></td><td class="num">4.52</td><td class="pass">PASS</td></tr>
+      <tr><td>dark</td><td><code>comment</code></td><td class="num">8.29</td><td class="pass">PASS</td></tr>
+      <tr><td>light</td><td><code>keyword</code></td><td class="num">4.98</td><td class="pass">PASS</td></tr>
+      <tr><td>dark</td><td><code>keyword</code></td><td class="num">9.08</td><td class="pass">PASS</td></tr>
+      <tr><td>light</td><td><code>parameter</code></td><td class="num">4.98</td><td class="pass">PASS</td></tr>
+      <tr><td>dark</td><td><code>parameter</code></td><td class="num">9.04</td><td class="pass">PASS</td></tr>
+      <tr><td>light</td><td><code>function</code></td><td class="num">5.73</td><td class="pass">PASS</td></tr>
+      <tr><td>dark</td><td><code>function</code></td><td class="num">7.23</td><td class="pass">PASS</td></tr>
+      <tr><td>light</td><td><code>punctuation</code></td><td class="num">7.57</td><td class="pass">PASS</td></tr>
+      <tr><td>dark</td><td><code>punctuation</code></td><td class="num">11.51</td><td class="pass">PASS</td></tr>
+      <tr><td>light</td><td><code>link</code></td><td class="num">4.56</td><td class="pass">PASS</td></tr>
+      <tr><td>dark</td><td><code>link</code></td><td class="num">8.87</td><td class="pass">PASS</td></tr>
+    </tbody>
+  </table>
+
+  <h2 style="margin-top:26px">色阶</h2>
+  <div class="label">浅色</div>
+  <div class="swatches">
+    <div class="swatch" style="background:#d6e7f8" title="#d6e7f8"></div>
+    <div class="swatch" style="background:#90c2f5" title="#90c2f5"></div>
+    <div class="swatch" style="background:#56a4f0" title="#56a4f0"></div>
+    <div class="swatch" style="background:#3494ec" title="#3494ec"></div>
+    <div class="swatch" style="background:#ebf2fa" title="#ebf2fa"></div>
+    <div class="swatch" style="background:#0586e5" title="#0586e5"></div>
+    <div class="swatch" style="background:#e5effa" title="#e5effa"></div>
+    <div class="swatch" style="background:#0a6fbe" title="#0a6fbe"></div>
+    <div class="swatch" style="background:#e0edfa" title="#e0edfa"></div>
+    <div class="swatch" style="background:#044d86" title="#044d86"></div>
+    <div class="swatch" style="background:#00345f" title="#00345f"></div>
+    <div class="swatch" style="background:#00274a" title="#00274a"></div>
+    <div class="swatch" style="background:#daecf6" title="#daecf6"></div>
+    <div class="swatch" style="background:#c3e3f6" title="#c3e3f6"></div>
+    <div class="swatch" style="background:#94cff2" title="#94cff2"></div>
+    <div class="swatch" style="background:#0a74a1" title="#0a74a1"></div>
+    <div class="swatch" style="background:#0b74a1" title="#0b74a1"></div>
+    <div class="swatch" style="background:#e5f1f8" title="#e5f1f8"></div>
+    <div class="swatch" style="background:#0874a2" title="#0874a2"></div>
+    <div class="swatch" style="background:#05719d" title="#05719d"></div>
+    <div class="swatch" style="background:#045375" title="#045375"></div>
+    <div class="swatch" style="background:#234254" title="#234254"></div>
+    <div class="swatch" style="background:#1d313c" title="#1d313c"></div>
+    <div class="swatch" style="background:#fbfbfb" title="#fbfbfb"></div>
+    <div class="swatch" style="background:#f1f1f1" title="#f1f1f1"></div>
+    <div class="swatch" style="background:#000000" title="#000000"></div>
+    <div class="swatch" style="background:#e9e9e9" title="#e9e9e9"></div>
+    <div class="swatch" style="background:#e1e1e1" title="#e1e1e1"></div>
+    <div class="swatch" style="background:#d8d8d8" title="#d8d8d8"></div>
+    <div class="swatch" style="background:#d0d0d0" title="#d0d0d0"></div>
+    <div class="swatch" style="background:#a0a09f" title="#a0a09f"></div>
+    <div class="swatch" style="background:#f6f6f6" title="#f6f6f6"></div>
+    <div class="swatch" style="background:#7f7e7c" title="#7f7e7c"></div>
+    <div class="swatch" style="background:#646462" title="#646462"></div>
+    <div class="swatch" style="background:#525251" title="#525251"></div>
+    <div class="swatch" style="background:#393939" title="#393939"></div>
+    <div class="swatch" style="background:#262626" title="#262626"></div>
+    <div class="swatch" style="background:#1f1e1e" title="#1f1e1e"></div>
+    <div class="swatch" style="background:#0c0c0c" title="#0c0c0c"></div>
+    <div class="swatch" style="background:#fbfbfb" title="#fbfbfb"></div>
+    <div class="swatch" style="background:#eaeae7" title="#eaeae7"></div>
+    <div class="swatch" style="background:#12110f" title="#12110f"></div>
+    <div class="swatch" style="background:#e9e8e4" title="#e9e8e4"></div>
+    <div class="swatch" style="background:#e2e1dc" title="#e2e1dc"></div>
+    <div class="swatch" style="background:#cfcecc" title="#cfcecc"></div>
+    <div class="swatch" style="background:#cfcdc7" title="#cfcdc7"></div>
+    <div class="swatch" style="background:#b2b1ae" title="#b2b1ae"></div>
+    <div class="swatch" style="background:#f6f6f5" title="#f6f6f5"></div>
+    <div class="swatch" style="background:#9a9993" title="#9a9993"></div>
+    <div class="swatch" style="background:#f3f3f1" title="#f3f3f1"></div>
+    <div class="swatch" style="background:#f2f2f1" title="#f2f2f1"></div>
+    <div class="swatch" style="background:#6f6e6a" title="#6f6e6a"></div>
+    <div class="swatch" style="background:#53524f" title="#53524f"></div>
+    <div class="swatch" style="background:#efefed" title="#efefed"></div>
+    <div class="swatch" style="background:#43423f" title="#43423f"></div>
+    <div class="swatch" style="background:#333332" title="#333332"></div>
+    <div class="swatch" style="background:#2a2928" title="#2a2928"></div>
+    <div class="swatch" style="background:#202020" title="#202020"></div>
+    <div class="swatch" style="background:#ecece9" title="#ecece9"></div>
+    <div class="swatch" style="background:#1b1b1b" title="#1b1b1b"></div>
+    <div class="swatch" style="background:#151514" title="#151514"></div>
+    <div class="swatch" style="background:#aa8ae1" title="#aa8ae1"></div>
+    <div class="swatch" style="background:#8045ca" title="#8045ca"></div>
+  </div>
+  <div class="label" style="margin-top:12px">深色</div>
+  <div class="swatches">
+    <div class="swatch" style="background:#ddedfe" title="#ddedfe"></div>
+    <div class="swatch" style="background:#96c8fc" title="#96c8fc"></div>
+    <div class="swatch" style="background:#5daaf7" title="#5daaf7"></div>
+    <div class="swatch" style="background:#3b9bf3" title="#3b9bf3"></div>
+    <div class="swatch" style="background:#f3f9ff" title="#f3f9ff"></div>
+    <div class="swatch" style="background:#008cf0" title="#008cf0"></div>
+    <div class="swatch" style="background:#edf6ff" title="#edf6ff"></div>
+    <div class="swatch" style="background:#0975c8" title="#0975c8"></div>
+    <div class="swatch" style="background:#e8f3ff" title="#e8f3ff"></div>
+    <div class="swatch" style="background:#06528e" title="#06528e"></div>
+    <div class="swatch" style="background:#003967" title="#003967"></div>
+    <div class="swatch" style="background:#002c52" title="#002c52"></div>
+    <div class="swatch" style="background:#e1f2fd" title="#e1f2fd"></div>
+    <div class="swatch" style="background:#cae9fd" title="#cae9fd"></div>
+    <div class="swatch" style="background:#9ad6f9" title="#9ad6f9"></div>
+    <div class="swatch" style="background:#41b7f3" title="#41b7f3"></div>
+    <div class="swatch" style="background:#119ad4" title="#119ad4"></div>
+    <div class="swatch" style="background:#ecf7ff" title="#ecf7ff"></div>
+    <div class="swatch" style="background:#0487bc" title="#0487bc"></div>
+    <div class="swatch" style="background:#0477a5" title="#0477a5"></div>
+    <div class="swatch" style="background:#06597d" title="#06597d"></div>
+    <div class="swatch" style="background:#284759" title="#284759"></div>
+    <div class="swatch" style="background:#223642" title="#223642"></div>
+    <div class="swatch" style="background:#ffffff" title="#ffffff"></div>
+    <div class="swatch" style="background:#f8f8f8" title="#f8f8f8"></div>
+    <div class="swatch" style="background:#000000" title="#000000"></div>
+    <div class="swatch" style="background:#f0f0f0" title="#f0f0f0"></div>
+    <div class="swatch" style="background:#e8e8e8" title="#e8e8e8"></div>
+    <div class="swatch" style="background:#dfdfdf" title="#dfdfdf"></div>
+    <div class="swatch" style="background:#d7d7d7" title="#d7d7d7"></div>
+    <div class="swatch" style="background:#a6a6a5" title="#a6a6a5"></div>
+    <div class="swatch" style="background:#fdfdfd" title="#fdfdfd"></div>
+    <div class="swatch" style="background:#858482" title="#858482"></div>
+    <div class="swatch" style="background:#6a6968" title="#6a6968"></div>
+    <div class="swatch" style="background:#575756" title="#575756"></div>
+    <div class="swatch" style="background:#3e3e3e" title="#3e3e3e"></div>
+    <div class="swatch" style="background:#2b2b2b" title="#2b2b2b"></div>
+    <div class="swatch" style="background:#232322" title="#232322"></div>
+    <div class="swatch" style="background:#111111" title="#111111"></div>
+    <div class="swatch" style="background:#ffffff" title="#ffffff"></div>
+    <div class="swatch" style="background:#f1f0ee" title="#f1f0ee"></div>
+    <div class="swatch" style="background:#eaeae6" title="#eaeae6"></div>
+    <div class="swatch" style="background:#efefeb" title="#efefeb"></div>
+    <div class="swatch" style="background:#e9e8e2" title="#e9e8e2"></div>
+    <div class="swatch" style="background:#d6d5d3" title="#d6d5d3"></div>
+    <div class="swatch" style="background:#d5d4ce" title="#d5d4ce"></div>
+    <div class="swatch" style="background:#b2b1ae" title="#b2b1ae"></div>
+    <div class="swatch" style="background:#fdfdfc" title="#fdfdfc"></div>
+    <div class="swatch" style="background:#a09f99" title="#a09f99"></div>
+    <div class="swatch" style="background:#fafaf8" title="#fafaf8"></div>
+    <div class="swatch" style="background:#fdfdfc" title="#fdfdfc"></div>
+    <div class="swatch" style="background:#868581" title="#868581"></div>
+    <div class="swatch" style="background:#666562" title="#666562"></div>
+    <div class="swatch" style="background:#f6f5f4" title="#f6f5f4"></div>
+    <div class="swatch" style="background:#484744" title="#484744"></div>
+    <div class="swatch" style="background:#383837" title="#383837"></div>
+    <div class="swatch" style="background:#2e2e2d" title="#2e2e2d"></div>
+    <div class="swatch" style="background:#252524" title="#252524"></div>
+    <div class="swatch" style="background:#f3f2f0" title="#f3f2f0"></div>
+    <div class="swatch" style="background:#1b1b1b" title="#1b1b1b"></div>
+    <div class="swatch" style="background:#e3e2e1" title="#e3e2e1"></div>
+    <div class="swatch" style="background:#b090e7" title="#b090e7"></div>
+    <div class="swatch" style="background:#854bd1" title="#854bd1"></div>
+  </div>
+
+  <p class="caption" style="margin-top:20px">
+    由 <code>tools/preview.mjs</code> 从真实的 <code>tools/tokens.json</code> 生成，没有任何一个颜色是手写的。
+    最低的三项：警告文字 3.06:1、说明文字 3.20:1、辅助文字 4.72:1。
+  </p>
+</section>
+
+<script>
+  // 遮罩强度滑杆：两张主题卡片使用同一强度，浅色卡片的表面色就是遮罩色。
+  const slider = document.getElementById('strength')
+  const out = document.getElementById('strengthValue')
+  const demo = document.getElementById('bgDemo')
+  const applyStrength = () => {
+    const value = Number(slider.value)
+    out.textContent = value + '%'
+    const wash = getComputedStyle(document.querySelector('[data-mode="light"]')).getPropertyValue('--dsw-alias-bg-base').trim() || '#f7f6f3'
+    demo.querySelector('.wash').style.background = 'color-mix(in srgb, ' + wash + ' ' + value + '%, transparent)'
+  }
+  slider.addEventListener('input', applyStrength)
+  applyStrength()
+</script>
+</body>
+</html>

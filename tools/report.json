@@ -1,0 +1,673 @@
+{
+	"generatedFrom": "@deepseek-ai/dsh-client-ui-theme@0.2.2-rc.1",
+	"counts": {
+		"tokens": 149,
+		"ramps": 82,
+		"semantic": 119,
+		"shiki": 9
+	},
+	"surface": {
+		"light": "#f7f6f3",
+		"dark": "#14161a"
+	},
+	"overlay": {
+		"light": 0.82,
+		"dark": 0.88
+	},
+	"pairs": [
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 7,
+			"why": "正文",
+			"mode": "light",
+			"ratio": 17.46172013431326,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 7,
+			"why": "正文",
+			"mode": "dark",
+			"ratio": 17.795290847240718,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-secondary",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 4.5,
+			"why": "次要文字",
+			"mode": "light",
+			"ratio": 7.229947568052711,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-secondary",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 4.5,
+			"why": "次要文字",
+			"mode": "dark",
+			"ratio": 12.34884888639102,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-tertiary",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 4.5,
+			"why": "辅助文字",
+			"mode": "light",
+			"ratio": 4.722772272478346,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-tertiary",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 4.5,
+			"why": "辅助文字",
+			"mode": "dark",
+			"ratio": 8.446475126607982,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-caption",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 3,
+			"why": "说明文字",
+			"inherited": true,
+			"mode": "light",
+			"ratio": 3.204341882876457,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-caption",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 3,
+			"why": "说明文字",
+			"inherited": true,
+			"mode": "dark",
+			"ratio": 4.893007486503553,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-link",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 4.5,
+			"why": "链接",
+			"mode": "light",
+			"ratio": 4.821426114916473,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-link",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 4.5,
+			"why": "链接",
+			"mode": "dark",
+			"ratio": 8.014640823985648,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-specific-bubble",
+			"floor": 7,
+			"why": "用户气泡",
+			"mode": "light",
+			"ratio": 16.4173540392215,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-specific-bubble",
+			"floor": 7,
+			"why": "用户气泡",
+			"mode": "dark",
+			"ratio": 13.35545769572425,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-markdown-citation",
+			"floor": 7,
+			"why": "引用块",
+			"mode": "light",
+			"ratio": 15.655609738279844,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-markdown-citation",
+			"floor": 7,
+			"why": "引用块",
+			"mode": "dark",
+			"ratio": 11.532948861098188,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-markdown-code-block",
+			"floor": 7,
+			"why": "代码块",
+			"mode": "light",
+			"ratio": 17.450969018757498,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-markdown-code-block",
+			"floor": 7,
+			"why": "代码块",
+			"mode": "dark",
+			"ratio": 16.9227890373009,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-markdown-inline-code",
+			"floor": 7,
+			"why": "行内代码",
+			"mode": "light",
+			"ratio": 17.4619770879625,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-markdown-inline-code",
+			"floor": 7,
+			"why": "行内代码",
+			"mode": "dark",
+			"ratio": 13.911107683786796,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-markdown-code-block-banner",
+			"floor": 7,
+			"why": "代码块标题条",
+			"mode": "light",
+			"ratio": 17.450969018757498,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-alias-markdown-code-block-banner",
+			"floor": 7,
+			"why": "代码块标题条",
+			"mode": "dark",
+			"ratio": 13.35545769572425,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-specific-input-major",
+			"floor": 7,
+			"why": "输入框",
+			"mode": "light",
+			"ratio": 18.23668062317834,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-specific-input-major",
+			"floor": 7,
+			"why": "输入框",
+			"mode": "dark",
+			"ratio": 13.35545769572425,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-secondary",
+			"bg": "--dsw-specific-input-major",
+			"floor": 4.5,
+			"why": "输入框占位",
+			"mode": "light",
+			"ratio": 7.55081651216074,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-secondary",
+			"bg": "--dsw-specific-input-major",
+			"floor": 4.5,
+			"why": "输入框占位",
+			"mode": "dark",
+			"ratio": 9.267874872562674,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-specific-sidebar-fill",
+			"floor": 7,
+			"why": "侧栏",
+			"mode": "light",
+			"ratio": 17.450969018757498,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-specific-sidebar-fill",
+			"floor": 7,
+			"why": "侧栏",
+			"mode": "dark",
+			"ratio": 16.9227890373009,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-secondary",
+			"bg": "--dsw-specific-sidebar-fill",
+			"floor": 4.5,
+			"why": "侧栏次级",
+			"mode": "light",
+			"ratio": 7.225496116467852,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-secondary",
+			"bg": "--dsw-specific-sidebar-fill",
+			"floor": 4.5,
+			"why": "侧栏次级",
+			"mode": "dark",
+			"ratio": 11.743385727820609,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-specific-sidebar-nav-item-active",
+			"floor": 7,
+			"why": "侧栏选中项",
+			"mode": "light",
+			"ratio": 15.655609738279844,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary",
+			"bg": "--dsw-specific-sidebar-nav-item-active",
+			"floor": 7,
+			"why": "侧栏选中项",
+			"mode": "dark",
+			"ratio": 9.128083236695055,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-toast-label",
+			"bg": "--dsw-alias-toast-bg",
+			"floor": 4.5,
+			"why": "Toast 文字",
+			"mode": "light",
+			"ratio": 12.222559058438186,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-toast-label",
+			"bg": "--dsw-alias-toast-bg",
+			"floor": 4.5,
+			"why": "Toast 文字",
+			"mode": "dark",
+			"ratio": 9.290761726533184,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-state-business-primary",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 4.5,
+			"why": "业务色（链接/按钮）",
+			"mode": "light",
+			"ratio": 4.821426114916473,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-state-business-primary",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 4.5,
+			"why": "业务色（链接/按钮）",
+			"mode": "dark",
+			"ratio": 8.014640823985648,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-state-warn-label",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 3,
+			"why": "警告文字",
+			"inherited": true,
+			"mode": "light",
+			"ratio": 3.057230973249774,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-state-warn-label",
+			"bg": "--dsw-alias-bg-base",
+			"floor": 3,
+			"why": "警告文字",
+			"inherited": true,
+			"mode": "dark",
+			"ratio": 6.700366132285648,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary-foreground",
+			"bg": "--dsw-alias-button-contrast-fill",
+			"floor": 4.5,
+			"why": "反色按钮",
+			"inherited": true,
+			"mode": "light",
+			"ratio": 7.81360480071608,
+			"status": "PASS"
+		},
+		{
+			"fg": "--dsw-alias-label-primary-foreground",
+			"bg": "--dsw-alias-button-contrast-fill",
+			"floor": 4.5,
+			"why": "反色按钮",
+			"inherited": true,
+			"mode": "dark",
+			"ratio": 18.540933086920493,
+			"status": "PASS"
+		}
+	],
+	"shiki": [
+		{
+			"token": "--shiki-token-constant",
+			"mode": "light",
+			"ratio": 4.511063404681268,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-constant",
+			"mode": "dark",
+			"ratio": 6.99059201008567,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-string",
+			"mode": "light",
+			"ratio": 4.506139719663702,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-string",
+			"mode": "dark",
+			"ratio": 9.731123842831416,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-string-expression",
+			"mode": "light",
+			"ratio": 5.014885633141597,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-string-expression",
+			"mode": "dark",
+			"ratio": 11.599379191449117,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-comment",
+			"mode": "light",
+			"ratio": 4.517862041253035,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-comment",
+			"mode": "dark",
+			"ratio": 8.294183202979669,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-keyword",
+			"mode": "light",
+			"ratio": 4.982273617556626,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-keyword",
+			"mode": "dark",
+			"ratio": 9.081623249267045,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-parameter",
+			"mode": "light",
+			"ratio": 4.976910372287542,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-parameter",
+			"mode": "dark",
+			"ratio": 9.04312787410893,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-function",
+			"mode": "light",
+			"ratio": 5.73048172556916,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-function",
+			"mode": "dark",
+			"ratio": 7.230927669242251,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-punctuation",
+			"mode": "light",
+			"ratio": 7.57431273075807,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-punctuation",
+			"mode": "dark",
+			"ratio": 11.513930609489101,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-link",
+			"mode": "light",
+			"ratio": 4.555050671934897,
+			"status": "PASS"
+		},
+		{
+			"token": "--shiki-token-link",
+			"mode": "dark",
+			"ratio": 8.871183895537076,
+			"status": "PASS"
+		}
+	],
+	"failures": [],
+	"luminanceDrift": {
+		"light": [
+			{
+				"name": "--dsw-static-deepseek-400",
+				"drift": 0.24978504701902904
+			},
+			{
+				"name": "--dsw-static-deepseek-450",
+				"drift": 0.110492464698144
+			},
+			{
+				"name": "--dsw-alias-border-inverted2",
+				"drift": 0.07903063108644126
+			},
+			{
+				"name": "--dsw-static-neutral-bluish-600",
+				"drift": 0.07763658792390452
+			},
+			{
+				"name": "--dsw-static-neutral-bluish-700",
+				"drift": 0.046675665427059074
+			}
+		],
+		"dark": [
+			{
+				"name": "--dsw-static-neutral-bluish-1000",
+				"drift": 0.8149463477077414
+			},
+			{
+				"name": "--dsw-static-neutral-bluish-950",
+				"drift": 0.7540222671004921
+			},
+			{
+				"name": "--dsw-static-deepseek-300",
+				"drift": 0.032711225577716885
+			},
+			{
+				"name": "--dsw-static-neutral-bluish-50",
+				"drift": 0.02685495151448347
+			},
+			{
+				"name": "--dsw-static-neutral-bluish-60",
+				"drift": 0.02685495151448347
+			}
+		]
+	},
+	"provenance": {
+		"--dsw-static-blue-100": "ramp:azure",
+		"--dsw-static-blue-300": "ramp:azure",
+		"--dsw-static-blue-400": "ramp:azure",
+		"--dsw-static-blue-450": "ramp:azure",
+		"--dsw-static-blue-50": "ramp:azure",
+		"--dsw-static-blue-500": "ramp:azure",
+		"--dsw-static-blue-50p": "ramp:azure",
+		"--dsw-static-blue-600": "ramp:azure",
+		"--dsw-static-blue-75": "ramp:azure",
+		"--dsw-static-blue-800": "ramp:azure",
+		"--dsw-static-blue-900": "ramp:azure",
+		"--dsw-static-blue-950": "ramp:azure",
+		"--dsw-static-deepseek-100": "ramp:ink-blue",
+		"--dsw-static-deepseek-200": "ramp:ink-blue",
+		"--dsw-static-deepseek-300": "ramp:ink-blue",
+		"--dsw-static-deepseek-400": "ramp:ink-blue:contrast",
+		"--dsw-static-deepseek-450": "ramp:ink-blue:contrast",
+		"--dsw-static-deepseek-50": "ramp:ink-blue",
+		"--dsw-static-deepseek-500": "ramp:ink-blue:contrast",
+		"--dsw-static-deepseek-600": "ramp:ink-blue",
+		"--dsw-static-deepseek-700-delete": "ramp:ink-blue",
+		"--dsw-static-deepseek-800": "ramp:ink-blue",
+		"--dsw-static-deepseek-900": "ramp:ink-blue",
+		"--dsw-static-neutral-00": "ramp:ash",
+		"--dsw-static-neutral-100": "ramp:ash",
+		"--dsw-static-neutral-1000": "ramp:ash",
+		"--dsw-static-neutral-150": "ramp:ash",
+		"--dsw-static-neutral-200": "ramp:ash",
+		"--dsw-static-neutral-250": "ramp:ash",
+		"--dsw-static-neutral-300": "ramp:ash",
+		"--dsw-static-neutral-400": "ramp:ash",
+		"--dsw-static-neutral-50": "ramp:ash",
+		"--dsw-static-neutral-500": "ramp:ash",
+		"--dsw-static-neutral-550": "ramp:ash",
+		"--dsw-static-neutral-600": "ramp:ash",
+		"--dsw-static-neutral-700": "ramp:ash",
+		"--dsw-static-neutral-800": "ramp:ash",
+		"--dsw-static-neutral-850": "ramp:ash",
+		"--dsw-static-neutral-900": "ramp:ash",
+		"--dsw-static-neutral-bluish-00": "ramp:stone",
+		"--dsw-static-neutral-bluish-100": "ramp:stone",
+		"--dsw-static-neutral-bluish-1000": "ramp:stone:contrast",
+		"--dsw-static-neutral-bluish-150": "ramp:stone",
+		"--dsw-static-neutral-bluish-200": "ramp:stone",
+		"--dsw-static-neutral-bluish-300": "ramp:stone",
+		"--dsw-static-neutral-bluish-310": "ramp:stone",
+		"--dsw-static-neutral-bluish-400": "ramp:stone:contrast",
+		"--dsw-static-neutral-bluish-50": "ramp:stone",
+		"--dsw-static-neutral-bluish-500": "ramp:stone",
+		"--dsw-static-neutral-bluish-55": "ramp:stone",
+		"--dsw-static-neutral-bluish-60": "ramp:stone",
+		"--dsw-static-neutral-bluish-600": "ramp:stone:contrast",
+		"--dsw-static-neutral-bluish-700": "ramp:stone:contrast",
+		"--dsw-static-neutral-bluish-75": "ramp:stone",
+		"--dsw-static-neutral-bluish-750": "ramp:stone",
+		"--dsw-static-neutral-bluish-800": "ramp:stone",
+		"--dsw-static-neutral-bluish-850": "ramp:stone",
+		"--dsw-static-neutral-bluish-875": "ramp:stone",
+		"--dsw-static-neutral-bluish-90": "ramp:stone",
+		"--dsw-static-neutral-bluish-900": "ramp:stone:contrast",
+		"--dsw-static-neutral-bluish-950": "ramp:stone:contrast",
+		"--dsw-static-violet-400": "ramp:violet",
+		"--dsw-static-violet-600": "ramp:violet",
+		"--dsw-alias-bg-document-preview": "semantic:alias",
+		"--dsw-alias-bg-layer-1": "semantic:alias",
+		"--dsw-alias-bg-layer-2": "semantic:alias",
+		"--dsw-alias-bg-layer-3": "semantic:alias",
+		"--dsw-alias-bg-module-platform": "semantic:alias",
+		"--dsw-alias-bg-multi-select": "semantic:alias",
+		"--dsw-alias-bg-overlay": "semantic:alias",
+		"--dsw-alias-brand-primary": "semantic:alias",
+		"--dsw-alias-brand-primary-invert": "semantic:alias",
+		"--dsw-alias-brand-text": "semantic:alias",
+		"--dsw-alias-button-contrast-fill": "semantic:alias",
+		"--dsw-alias-button-elevated-fill": "semantic:alias",
+		"--dsw-alias-button-floating-fill": "semantic:alias",
+		"--dsw-alias-button-floating-hover": "semantic:alias",
+		"--dsw-alias-button-ghost-active-border": "semantic:alias",
+		"--dsw-alias-button-ghost-active-fill": "semantic:alias",
+		"--dsw-alias-button-ghost-active-hover": "semantic:alias",
+		"--dsw-alias-button-info-fill": "semantic:alias",
+		"--dsw-alias-button-info-hover": "semantic:alias",
+		"--dsw-alias-button-primary-dimmed": "semantic:alias",
+		"--dsw-alias-button-primary-fill": "semantic:alias",
+		"--dsw-alias-button-primary-hover": "semantic:alias",
+		"--dsw-alias-illustration-background": "semantic:alias",
+		"--dsw-alias-illustration-backing": "semantic:alias",
+		"--dsw-alias-illustration-detail": "semantic:alias",
+		"--dsw-alias-illustration-inset": "semantic:alias",
+		"--dsw-alias-illustration-shadow": "semantic:alias",
+		"--dsw-alias-illustration-surface": "semantic:alias",
+		"--dsw-alias-interactive-bg-hover-solid": "semantic:alias",
+		"--dsw-alias-label-caption": "foreground:contrast",
+		"--dsw-alias-label-dimmed": "semantic:alias",
+		"--dsw-alias-label-document-preview": "semantic:alias",
+		"--dsw-alias-label-primary": "semantic:alias",
+		"--dsw-alias-label-primary-bluish": "semantic:alias",
+		"--dsw-alias-label-primary-dimmed": "semantic:alias",
+		"--dsw-alias-label-primary-foreground": "pair:fixed",
+		"--dsw-alias-label-primary-inverted": "semantic:alias",
+		"--dsw-alias-label-secondary": "semantic:alias",
+		"--dsw-alias-label-tertiary": "semantic:alias",
+		"--dsw-alias-link": "semantic:alias",
+		"--dsw-alias-markdown-citation": "semantic:alias",
+		"--dsw-alias-markdown-code-block": "semantic:alias",
+		"--dsw-alias-markdown-code-block-banner": "semantic:alias",
+		"--dsw-alias-markdown-code-segment-selected": "semantic:alias",
+		"--dsw-alias-markdown-code-segment-unselected": "semantic:alias",
+		"--dsw-alias-markdown-inline-code": "semantic:alias",
+		"--dsw-alias-markdown-placeholder": "semantic:alias",
+		"--dsw-alias-markdown-tag": "semantic:alias",
+		"--dsw-alias-menu-icon": "semantic:alias",
+		"--dsw-alias-scrollbar-bg-l1": "semantic:alias",
+		"--dsw-alias-scrollbar-bg-l2": "semantic:alias",
+		"--dsw-alias-scrollbar-hover-l1": "semantic:alias",
+		"--dsw-alias-scrollbar-hover-l2": "semantic:alias",
+		"--dsw-alias-state-business-primary": "semantic:alias",
+		"--dsw-alias-state-business-tertiary": "semantic:alias",
+		"--dsw-alias-state-done-primary": "semantic:alias",
+		"--dsw-alias-state-idle-primary": "semantic:alias",
+		"--dsw-alias-switch-thumb": "semantic:alias",
+		"--dsw-alias-toast-bg": "semantic:alias",
+		"--dsw-alias-toast-label": "semantic:alias",
+		"--dsw-alias-tooltip-bg": "semantic:alias",
+		"--dsw-specific-bubble": "semantic:alias",
+		"--dsw-specific-bubble-highlight": "semantic:alias",
+		"--dsw-specific-input-major": "semantic:alias",
+		"--dsw-specific-login-input": "semantic:alias",
+		"--dsw-specific-selector": "semantic:alias",
+		"--dsw-specific-sidebar-fill": "semantic:alias",
+		"--dsw-specific-sidebar-nav-item-active": "semantic:alias",
+		"--dsw-specific-sidebar-nav-item-active-accent": "semantic:alias",
+		"--dsw-specific-tip": "semantic:alias",
+		"--dsw-alias-border-inverted": "semantic:literal-remapped",
+		"--dsw-alias-border-inverted2": "semantic:literal-remapped",
+		"--dsw-alias-brand-primary-new-colorprimary-new-color": "semantic:literal-remapped",
+		"--dsw-alias-state-warn-label": "foreground:contrast",
+		"--dsw-alias-bg-base": "surface",
+		"--shiki-token-constant": "shiki:contrast",
+		"--shiki-token-string": "shiki:contrast",
+		"--shiki-token-string-expression": "shiki:contrast",
+		"--shiki-token-comment": "shiki:contrast",
+		"--shiki-token-keyword": "shiki:contrast",
+		"--shiki-token-parameter": "shiki:contrast",
+		"--shiki-token-function": "shiki:contrast",
+		"--shiki-token-punctuation": "shiki:contrast",
+		"--shiki-token-link": "shiki:contrast"
+	}
+}

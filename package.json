@@ -1,9 +1,12 @@
 {
   "name": "dsh-theme-inkstone",
-  "version": "0.1.0",
-  "description": "Inkstone (砚) — a stone-ink and jade theme plugin for the DeepSeek Harness web client: remaps the --dsw-* palette through one token override layer, no build step required to run it.",
+  "version": "0.2.0",
+  "description": "Inkstone (砚) — a readability-first theme for the DeepSeek Harness web client: one --dsw-* token layer with a contrast gate, plus an optional washed background image.",
   "type": "module",
   "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
   "keywords": [
     "deepseek",
     "harness",
@@ -25,7 +28,7 @@
     "README.md",
     "LICENSE",
     "preview.png",
-    "screenshots.json"
+    "preview.html"
   ],
   "dsh": {
     "bundle": {
@@ -50,7 +53,8 @@
     "palette": "node tools/palette.mjs",
     "build:client": "node tools/build-client.mjs",
     "preview": "node tools/preview.mjs && node tools/render-preview.mjs",
-    "check": "node tools/check.mjs"
+    "check": "node tools/check.mjs",
+    "verify": "node tools/palette.mjs && node tools/build-client.mjs && node tools/preview.mjs && node tools/render-preview.mjs && node tools/check.mjs"
   },
   "repository": {
     "type": "git",
