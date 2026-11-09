@@ -7,8 +7,8 @@
 		"shiki": 9
 	},
 	"surface": {
-		"light": "#f7f6f3",
-		"dark": "#14161a"
+		"light": "#faf7f2",
+		"dark": "#191513"
 	},
 	"overlay": {
 		"light": 0.82,
@@ -21,7 +21,7 @@
 			"floor": 7,
 			"why": "正文",
 			"mode": "light",
-			"ratio": 17.46172013431326,
+			"ratio": 17.668181592035783,
 			"status": "PASS"
 		},
 		{
@@ -30,7 +30,7 @@
 			"floor": 7,
 			"why": "正文",
 			"mode": "dark",
-			"ratio": 17.795290847240718,
+			"ratio": 17.300984788438445,
 			"status": "PASS"
 		},
 		{
@@ -39,7 +39,7 @@
 			"floor": 4.5,
 			"why": "次要文字",
 			"mode": "light",
-			"ratio": 7.229947568052711,
+			"ratio": 5.442359914547039,
 			"status": "PASS"
 		},
 		{
@@ -48,7 +48,7 @@
 			"floor": 4.5,
 			"why": "次要文字",
 			"mode": "dark",
-			"ratio": 12.34884888639102,
+			"ratio": 12.35535804994476,
 			"status": "PASS"
 		},
 		{
@@ -57,7 +57,7 @@
 			"floor": 4.5,
 			"why": "辅助文字",
 			"mode": "light",
-			"ratio": 4.722772272478346,
+			"ratio": 5.424485142130122,
 			"status": "PASS"
 		},
 		{
@@ -66,7 +66,7 @@
 			"floor": 4.5,
 			"why": "辅助文字",
 			"mode": "dark",
-			"ratio": 8.446475126607982,
+			"ratio": 8.484621358703192,
 			"status": "PASS"
 		},
 		{
@@ -76,7 +76,7 @@
 			"why": "说明文字",
 			"inherited": true,
 			"mode": "light",
-			"ratio": 3.204341882876457,
+			"ratio": 3.200213031498476,
 			"status": "PASS"
 		},
 		{
@@ -86,7 +86,7 @@
 			"why": "说明文字",
 			"inherited": true,
 			"mode": "dark",
-			"ratio": 4.893007486503553,
+			"ratio": 4.895934052315481,
 			"status": "PASS"
 		},
 		{
@@ -95,7 +95,7 @@
 			"floor": 4.5,
 			"why": "链接",
 			"mode": "light",
-			"ratio": 4.821426114916473,
+			"ratio": 5.742381647097735,
 			"status": "PASS"
 		},
 		{
@@ -104,7 +104,7 @@
 			"floor": 4.5,
 			"why": "链接",
 			"mode": "dark",
-			"ratio": 8.014640823985648,
+			"ratio": 5.041198263254411,
 			"status": "PASS"
 		},
 		{
@@ -113,7 +113,7 @@
 			"floor": 7,
 			"why": "用户气泡",
 			"mode": "light",
-			"ratio": 16.4173540392215,
+			"ratio": 16.21861056814451,
 			"status": "PASS"
 		},
 		{
@@ -122,7 +122,7 @@
 			"floor": 7,
 			"why": "用户气泡",
 			"mode": "dark",
-			"ratio": 13.35545769572425,
+			"ratio": 12.92924506971393,
 			"status": "PASS"
 		},
 		{
@@ -131,7 +131,7 @@
 			"floor": 7,
 			"why": "引用块",
 			"mode": "light",
-			"ratio": 15.655609738279844,
+			"ratio": 16.100220514649468,
 			"status": "PASS"
 		},
 		{
@@ -140,7 +140,7 @@
 			"floor": 7,
 			"why": "引用块",
 			"mode": "dark",
-			"ratio": 11.532948861098188,
+			"ratio": 11.516142069611185,
 			"status": "PASS"
 		},
 		{
@@ -149,7 +149,7 @@
 			"floor": 7,
 			"why": "代码块",
 			"mode": "light",
-			"ratio": 17.450969018757498,
+			"ratio": 18.012844634575554,
 			"status": "PASS"
 		},
 		{
@@ -158,7 +158,7 @@
 			"floor": 7,
 			"why": "代码块",
 			"mode": "dark",
-			"ratio": 16.9227890373009,
+			"ratio": 16.444840285308064,
 			"status": "PASS"
 		},
 		{
@@ -167,7 +167,7 @@
 			"floor": 7,
 			"why": "行内代码",
 			"mode": "light",
-			"ratio": 17.4619770879625,
+			"ratio": 18.012844634575554,
 			"status": "PASS"
 		},
 		{
@@ -176,7 +176,7 @@
 			"floor": 7,
 			"why": "行内代码",
 			"mode": "dark",
-			"ratio": 13.911107683786796,
+			"ratio": 13.837190235543545,
 			"status": "PASS"
 		},
 		{
@@ -185,7 +185,7 @@
 			"floor": 7,
 			"why": "代码块标题条",
 			"mode": "light",
-			"ratio": 17.450969018757498,
+			"ratio": 18.012844634575554,
 			"status": "PASS"
 		},
 		{
@@ -194,7 +194,7 @@
 			"floor": 7,
 			"why": "代码块标题条",
 			"mode": "dark",
-			"ratio": 13.35545769572425,
+			"ratio": 12.92924506971393,
 			"status": "PASS"
 		},
 		{
@@ -203,7 +203,7 @@
 			"floor": 7,
 			"why": "输入框",
 			"mode": "light",
-			"ratio": 18.23668062317834,
+			"ratio": 17.713480984652797,
 			"status": "PASS"
 		},
 		{
@@ -212,7 +212,7 @@
 			"floor": 7,
 			"why": "输入框",
 			"mode": "dark",
-			"ratio": 13.35545769572425,
+			"ratio": 12.92924506971393,
 			"status": "PASS"
 		},
 		{
@@ -221,7 +221,7 @@
 			"floor": 4.5,
 			"why": "输入框占位",
 			"mode": "light",
-			"ratio": 7.55081651216074,
+			"ratio": 5.456313563214727,
 			"status": "PASS"
 		},
 		{
@@ -230,7 +230,7 @@
 			"floor": 4.5,
 			"why": "输入框占位",
 			"mode": "dark",
-			"ratio": 9.267874872562674,
+			"ratio": 9.233315565860163,
 			"status": "PASS"
 		},
 		{
@@ -239,7 +239,7 @@
 			"floor": 7,
 			"why": "侧栏",
 			"mode": "light",
-			"ratio": 17.450969018757498,
+			"ratio": 18.012844634575554,
 			"status": "PASS"
 		},
 		{
@@ -248,7 +248,7 @@
 			"floor": 7,
 			"why": "侧栏",
 			"mode": "dark",
-			"ratio": 16.9227890373009,
+			"ratio": 16.444840285308064,
 			"status": "PASS"
 		},
 		{
@@ -257,7 +257,7 @@
 			"floor": 4.5,
 			"why": "侧栏次级",
 			"mode": "light",
-			"ratio": 7.225496116467852,
+			"ratio": 5.548527055572453,
 			"status": "PASS"
 		},
 		{
@@ -266,7 +266,7 @@
 			"floor": 4.5,
 			"why": "侧栏次级",
 			"mode": "dark",
-			"ratio": 11.743385727820609,
+			"ratio": 11.743949392690942,
 			"status": "PASS"
 		},
 		{
@@ -275,7 +275,7 @@
 			"floor": 7,
 			"why": "侧栏选中项",
 			"mode": "light",
-			"ratio": 15.655609738279844,
+			"ratio": 16.100220514649468,
 			"status": "PASS"
 		},
 		{
@@ -284,7 +284,7 @@
 			"floor": 7,
 			"why": "侧栏选中项",
 			"mode": "dark",
-			"ratio": 9.128083236695055,
+			"ratio": 8.833370857426369,
 			"status": "PASS"
 		},
 		{
@@ -293,7 +293,7 @@
 			"floor": 4.5,
 			"why": "Toast 文字",
 			"mode": "light",
-			"ratio": 12.222559058438186,
+			"ratio": 11.324750071682642,
 			"status": "PASS"
 		},
 		{
@@ -302,7 +302,7 @@
 			"floor": 4.5,
 			"why": "Toast 文字",
 			"mode": "dark",
-			"ratio": 9.290761726533184,
+			"ratio": 9.259015026936241,
 			"status": "PASS"
 		},
 		{
@@ -311,7 +311,7 @@
 			"floor": 4.5,
 			"why": "业务色（链接/按钮）",
 			"mode": "light",
-			"ratio": 4.821426114916473,
+			"ratio": 5.742381647097735,
 			"status": "PASS"
 		},
 		{
@@ -320,7 +320,7 @@
 			"floor": 4.5,
 			"why": "业务色（链接/按钮）",
 			"mode": "dark",
-			"ratio": 8.014640823985648,
+			"ratio": 5.041198263254411,
 			"status": "PASS"
 		},
 		{
@@ -330,7 +330,7 @@
 			"why": "警告文字",
 			"inherited": true,
 			"mode": "light",
-			"ratio": 3.057230973249774,
+			"ratio": 3.0519681121526907,
 			"status": "PASS"
 		},
 		{
@@ -340,7 +340,7 @@
 			"why": "警告文字",
 			"inherited": true,
 			"mode": "dark",
-			"ratio": 6.700366132285648,
+			"ratio": 6.708584011863478,
 			"status": "PASS"
 		},
 		{
@@ -350,7 +350,7 @@
 			"why": "反色按钮",
 			"inherited": true,
 			"mode": "light",
-			"ratio": 7.81360480071608,
+			"ratio": 5.815887979130495,
 			"status": "PASS"
 		},
 		{
@@ -360,7 +360,7 @@
 			"why": "反色按钮",
 			"inherited": true,
 			"mode": "dark",
-			"ratio": 18.540933086920493,
+			"ratio": 18.003833680161165,
 			"status": "PASS"
 		}
 	],
@@ -368,109 +368,109 @@
 		{
 			"token": "--shiki-token-constant",
 			"mode": "light",
-			"ratio": 4.511063404681268,
+			"ratio": 4.506503696495634,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-constant",
 			"mode": "dark",
-			"ratio": 6.99059201008567,
+			"ratio": 6.934582522466511,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-string",
 			"mode": "light",
-			"ratio": 4.506139719663702,
+			"ratio": 4.519710349394157,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-string",
 			"mode": "dark",
-			"ratio": 9.731123842831416,
+			"ratio": 9.808298690010895,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-string-expression",
 			"mode": "light",
-			"ratio": 5.014885633141597,
+			"ratio": 4.998874813434309,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-string-expression",
 			"mode": "dark",
-			"ratio": 11.599379191449117,
+			"ratio": 11.610595329215817,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-comment",
 			"mode": "light",
-			"ratio": 4.517862041253035,
+			"ratio": 4.998756590080075,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-comment",
 			"mode": "dark",
-			"ratio": 8.294183202979669,
+			"ratio": 8.254250642667522,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-keyword",
 			"mode": "light",
-			"ratio": 4.982273617556626,
+			"ratio": 4.500750209682563,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-keyword",
 			"mode": "dark",
-			"ratio": 9.081623249267045,
+			"ratio": 9.051239018311723,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-parameter",
 			"mode": "light",
-			"ratio": 4.976910372287542,
+			"ratio": 4.986068189246371,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-parameter",
 			"mode": "dark",
-			"ratio": 9.04312787410893,
+			"ratio": 9.024212655323515,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-function",
 			"mode": "light",
-			"ratio": 5.73048172556916,
+			"ratio": 5.944297836659304,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-function",
 			"mode": "dark",
-			"ratio": 7.230927669242251,
+			"ratio": 7.204706455773897,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-punctuation",
 			"mode": "light",
-			"ratio": 7.57431273075807,
+			"ratio": 7.787631837363505,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-punctuation",
 			"mode": "dark",
-			"ratio": 11.513930609489101,
+			"ratio": 11.514425053511951,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-link",
 			"mode": "light",
-			"ratio": 4.555050671934897,
+			"ratio": 5.331319183679045,
 			"status": "PASS"
 		},
 		{
 			"token": "--shiki-token-link",
 			"mode": "dark",
-			"ratio": 8.871183895537076,
+			"ratio": 8.284672649954421,
 			"status": "PASS"
 		}
 	],
@@ -478,111 +478,111 @@
 	"luminanceDrift": {
 		"light": [
 			{
+				"name": "--dsw-static-neutral-300",
+				"drift": 0.38188118411947464
+			},
+			{
 				"name": "--dsw-static-deepseek-400",
-				"drift": 0.24978504701902904
+				"drift": 0.2755195315881875
+			},
+			{
+				"name": "--dsw-static-neutral-bluish-400",
+				"drift": 0.18624809332445807
 			},
 			{
 				"name": "--dsw-static-deepseek-450",
-				"drift": 0.110492464698144
-			},
-			{
-				"name": "--dsw-alias-border-inverted2",
-				"drift": 0.07903063108644126
+				"drift": 0.1404115077076428
 			},
 			{
 				"name": "--dsw-static-neutral-bluish-600",
-				"drift": 0.07763658792390452
-			},
-			{
-				"name": "--dsw-static-neutral-bluish-700",
-				"drift": 0.046675665427059074
+				"drift": 0.10222149991203125
 			}
 		],
 		"dark": [
 			{
-				"name": "--dsw-static-neutral-bluish-1000",
-				"drift": 0.8149463477077414
-			},
-			{
 				"name": "--dsw-static-neutral-bluish-950",
-				"drift": 0.7540222671004921
+				"drift": 0.7534780229780753
 			},
 			{
-				"name": "--dsw-static-deepseek-300",
-				"drift": 0.032711225577716885
+				"name": "--dsw-static-neutral-bluish-700",
+				"drift": 0.23591255458225066
 			},
 			{
-				"name": "--dsw-static-neutral-bluish-50",
-				"drift": 0.02685495151448347
+				"name": "--dsw-static-neutral-600",
+				"drift": 0.2067235176232372
 			},
 			{
-				"name": "--dsw-static-neutral-bluish-60",
-				"drift": 0.02685495151448347
+				"name": "--dsw-static-deepseek-400",
+				"drift": 0.15918381335892337
+			},
+			{
+				"name": "--dsw-static-deepseek-50",
+				"drift": 0.08083062843452282
 			}
 		]
 	},
 	"provenance": {
-		"--dsw-static-blue-100": "ramp:azure",
-		"--dsw-static-blue-300": "ramp:azure",
-		"--dsw-static-blue-400": "ramp:azure",
-		"--dsw-static-blue-450": "ramp:azure",
-		"--dsw-static-blue-50": "ramp:azure",
-		"--dsw-static-blue-500": "ramp:azure",
-		"--dsw-static-blue-50p": "ramp:azure",
-		"--dsw-static-blue-600": "ramp:azure",
-		"--dsw-static-blue-75": "ramp:azure",
-		"--dsw-static-blue-800": "ramp:azure",
-		"--dsw-static-blue-900": "ramp:azure",
-		"--dsw-static-blue-950": "ramp:azure",
-		"--dsw-static-deepseek-100": "ramp:ink-blue",
-		"--dsw-static-deepseek-200": "ramp:ink-blue",
-		"--dsw-static-deepseek-300": "ramp:ink-blue",
-		"--dsw-static-deepseek-400": "ramp:ink-blue:contrast",
-		"--dsw-static-deepseek-450": "ramp:ink-blue:contrast",
-		"--dsw-static-deepseek-50": "ramp:ink-blue",
-		"--dsw-static-deepseek-500": "ramp:ink-blue:contrast",
-		"--dsw-static-deepseek-600": "ramp:ink-blue",
-		"--dsw-static-deepseek-700-delete": "ramp:ink-blue",
-		"--dsw-static-deepseek-800": "ramp:ink-blue",
-		"--dsw-static-deepseek-900": "ramp:ink-blue",
-		"--dsw-static-neutral-00": "ramp:ash",
-		"--dsw-static-neutral-100": "ramp:ash",
+		"--dsw-static-blue-100": "ramp:slate-blue",
+		"--dsw-static-blue-300": "ramp:slate-blue",
+		"--dsw-static-blue-400": "ramp:slate-blue",
+		"--dsw-static-blue-450": "ramp:slate-blue",
+		"--dsw-static-blue-50": "ramp:slate-blue",
+		"--dsw-static-blue-500": "ramp:slate-blue",
+		"--dsw-static-blue-50p": "ramp:slate-blue",
+		"--dsw-static-blue-600": "ramp:slate-blue",
+		"--dsw-static-blue-75": "ramp:slate-blue",
+		"--dsw-static-blue-800": "ramp:slate-blue",
+		"--dsw-static-blue-900": "ramp:slate-blue",
+		"--dsw-static-blue-950": "ramp:slate-blue",
+		"--dsw-static-deepseek-100": "ramp:cinnabar",
+		"--dsw-static-deepseek-200": "ramp:cinnabar",
+		"--dsw-static-deepseek-300": "ramp:cinnabar",
+		"--dsw-static-deepseek-400": "ramp:cinnabar:contrast",
+		"--dsw-static-deepseek-450": "ramp:cinnabar:contrast",
+		"--dsw-static-deepseek-50": "ramp:cinnabar",
+		"--dsw-static-deepseek-500": "ramp:cinnabar:contrast",
+		"--dsw-static-deepseek-600": "ramp:cinnabar",
+		"--dsw-static-deepseek-700-delete": "ramp:cinnabar",
+		"--dsw-static-deepseek-800": "ramp:cinnabar",
+		"--dsw-static-deepseek-900": "ramp:cinnabar",
+		"--dsw-static-neutral-00": "ramp:paper",
+		"--dsw-static-neutral-100": "ramp:ash:contrast",
 		"--dsw-static-neutral-1000": "ramp:ash",
-		"--dsw-static-neutral-150": "ramp:ash",
-		"--dsw-static-neutral-200": "ramp:ash",
+		"--dsw-static-neutral-150": "ramp:ash:contrast",
+		"--dsw-static-neutral-200": "ramp:ash:contrast",
 		"--dsw-static-neutral-250": "ramp:ash",
-		"--dsw-static-neutral-300": "ramp:ash",
+		"--dsw-static-neutral-300": "ramp:ash:contrast",
 		"--dsw-static-neutral-400": "ramp:ash",
-		"--dsw-static-neutral-50": "ramp:ash",
+		"--dsw-static-neutral-50": "ramp:ash:contrast",
 		"--dsw-static-neutral-500": "ramp:ash",
 		"--dsw-static-neutral-550": "ramp:ash",
-		"--dsw-static-neutral-600": "ramp:ash",
+		"--dsw-static-neutral-600": "ramp:ash:contrast",
 		"--dsw-static-neutral-700": "ramp:ash",
-		"--dsw-static-neutral-800": "ramp:ash",
-		"--dsw-static-neutral-850": "ramp:ash",
+		"--dsw-static-neutral-800": "ramp:ash:contrast",
+		"--dsw-static-neutral-850": "ramp:ash:contrast",
 		"--dsw-static-neutral-900": "ramp:ash",
-		"--dsw-static-neutral-bluish-00": "ramp:stone",
-		"--dsw-static-neutral-bluish-100": "ramp:stone",
-		"--dsw-static-neutral-bluish-1000": "ramp:stone:contrast",
-		"--dsw-static-neutral-bluish-150": "ramp:stone",
-		"--dsw-static-neutral-bluish-200": "ramp:stone",
-		"--dsw-static-neutral-bluish-300": "ramp:stone",
-		"--dsw-static-neutral-bluish-310": "ramp:stone",
-		"--dsw-static-neutral-bluish-400": "ramp:stone:contrast",
-		"--dsw-static-neutral-bluish-50": "ramp:stone",
-		"--dsw-static-neutral-bluish-500": "ramp:stone",
-		"--dsw-static-neutral-bluish-55": "ramp:stone",
-		"--dsw-static-neutral-bluish-60": "ramp:stone",
-		"--dsw-static-neutral-bluish-600": "ramp:stone:contrast",
-		"--dsw-static-neutral-bluish-700": "ramp:stone:contrast",
-		"--dsw-static-neutral-bluish-75": "ramp:stone",
-		"--dsw-static-neutral-bluish-750": "ramp:stone",
-		"--dsw-static-neutral-bluish-800": "ramp:stone",
-		"--dsw-static-neutral-bluish-850": "ramp:stone",
-		"--dsw-static-neutral-bluish-875": "ramp:stone",
-		"--dsw-static-neutral-bluish-90": "ramp:stone",
-		"--dsw-static-neutral-bluish-900": "ramp:stone:contrast",
-		"--dsw-static-neutral-bluish-950": "ramp:stone:contrast",
+		"--dsw-static-neutral-bluish-00": "ramp:paper",
+		"--dsw-static-neutral-bluish-100": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-1000": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-150": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-200": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-300": "ramp:ink",
+		"--dsw-static-neutral-bluish-310": "ramp:ink",
+		"--dsw-static-neutral-bluish-400": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-50": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-500": "ramp:ink",
+		"--dsw-static-neutral-bluish-55": "ramp:ink",
+		"--dsw-static-neutral-bluish-60": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-600": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-700": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-75": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-750": "ramp:ink",
+		"--dsw-static-neutral-bluish-800": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-850": "ramp:ink",
+		"--dsw-static-neutral-bluish-875": "ramp:ink",
+		"--dsw-static-neutral-bluish-90": "ramp:ink",
+		"--dsw-static-neutral-bluish-900": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-950": "ramp:ink:contrast",
 		"--dsw-static-violet-400": "ramp:violet",
 		"--dsw-static-violet-600": "ramp:violet",
 		"--dsw-alias-bg-document-preview": "semantic:alias",

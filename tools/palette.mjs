@@ -43,16 +43,32 @@ const ROOT = join(HERE, '..')
  * Colour families by ramp prefix (two entries share `--dsw-static-neutral-` and
  * are told apart by their next segment, longest prefix wins).
  *
- * `hue` is the target OKLCH hue; `chroma` scales the baseline chroma. Neutrals
- * get a faint warm-stone tint instead of pure grey: a true 0-chroma ladder
- * reads as flat on OLED panels, and screenshots of pure grey look "unset".
+ * Direction: **warm ink with a cinnabar accent** (暖墨 + 朱砂).
+ *
+ *   - The stone ladder is a warm charcoal-ink neutral at 80° instead of a blue
+ *     grey: at these chroma levels (0.006–0.015) the tint is barely measurable as
+ *     colour, but it is what separates paper-ink from "SaaS blue grey".
+ *   - The accent is cinnabar (朱砂) at 30°, not blue. Cinnabar is the one colour
+ *     in the set that may stay saturated: it carries links, the business state
+ *     and the focus ring, so it needs to read as *red, and loud*.
+ *   - Every other rainbow family is pushed away from the accent hue so code and
+ *     state colours never compete with the brand red.
  */
 export const FAMILIES = {
-  '--dsw-static-neutral-bluish': { hue: 96, chroma: 0.55, label: 'stone' },
-  '--dsw-static-neutral': { hue: 96, chroma: 0.4, label: 'ash' },
-  '--dsw-static-deepseek': { hue: 235, chroma: 1.0, label: 'ink-blue' },
-  '--dsw-static-blue': { hue: 250, chroma: 0.95, label: 'azure' },
-  '--dsw-static-violet': { hue: 300, chroma: 0.8, label: 'violet' },
+  '--dsw-static-neutral-bluish': { hue: 80, chroma: 0.7, label: 'ink' },
+  // Accent seed. Baseline values here are blue; the remap lands them on cinnabar.
+  // `minChroma` keeps the red saturated through the contrast search, which
+  // otherwise collapses it into a washed salmon as it moves toward the target.
+  '--dsw-static-deepseek': { hue: 30, chroma: 1.6, minChroma: 0.2, label: 'cinnabar' },
+  // Surfaces. `#fff` carries no chroma to tint, so both get an explicit floor
+  // value and a light-mode lightness cap: the paper surface must sit just below
+  // pure white for the warmth to be measurable at all (OKLCH 0.98 ≈ #fbf7f0).
+  '--dsw-static-neutral-bluish-00': { hue: 80, chroma: 1, minChroma: 0.011, lightnessCap: { light: 0.978 }, label: 'paper' },
+  '--dsw-static-neutral-00': { hue: 80, chroma: 1, minChroma: 0.011, lightnessCap: { light: 0.978 }, label: 'paper' },
+  '--dsw-static-neutral-': { hue: 80, chroma: 2.2, minChroma: 0.006, label: 'ash' },
+  // Code/UI secondary hue, kept far from the accent so it never reads as a link.
+  '--dsw-static-blue': { hue: 250, chroma: 1.0, label: 'slate-blue' },
+  '--dsw-static-violet': { hue: 300, chroma: 0.9, label: 'violet' },
 }
 
 /** Families the theme leaves exactly as the baseline defines them. */
@@ -66,15 +82,14 @@ const ACCENT_TILT = { light: -0.012, dark: 0.008 }
 
 /**
  * Semantic tokens that keep the baseline role but move to a themed hue.
- * `mode` limits the change to one colour scheme (the warning label needs a
- * one-step darkening in light mode only).
+ * Hover washes follow the neutral tint instead of staying blue.
  */
 const SEMANTIC_HUES = {
-  '--dsw-alias-interactive-bg-hover': { hue: 245, chroma: 1.2 },
-  '--dsw-alias-interactive-bg-active': { hue: 245, chroma: 1.2 },
-  '--dsw-alias-interactive-bg-hover-accent': { hue: 235, chroma: 1.1 },
-  '--dsw-alias-button-tool-bar-fill': { hue: 245, chroma: 0.5 },
-  '--dsw-alias-button-tool-bar-hover': { hue: 245, chroma: 0.5 },
+  '--dsw-alias-interactive-bg-hover': { hue: 80, chroma: 1.5 },
+  '--dsw-alias-interactive-bg-active': { hue: 80, chroma: 1.5 },
+  '--dsw-alias-interactive-bg-hover-accent': { hue: 30, chroma: 1.4 },
+  '--dsw-alias-button-tool-bar-fill': { hue: 80, chroma: 0.6 },
+  '--dsw-alias-button-tool-bar-hover': { hue: 80, chroma: 0.6 },
 }
 
 /** Literal-hex semantic tokens that should follow a ramp value instead. */
@@ -86,19 +101,20 @@ const LITERAL_ALIASES = {
 
 /**
  * Code-highlight roles. A syntax scheme needs at least four distinguishable
- * hues to stay readable across a long code block; the warm `55°` parameter
- * colour is deliberately the only warm point in an otherwise cool theme.
+ * hues to stay readable across a long code block. With the brand accent on
+ * cinnabar (30°), the warm slot goes to amber and keywords take violet-magenta,
+ * so highlighted keywords do not look like links.
  */
 const SHIKI_ROLES = {
-  '--shiki-token-constant': { hue: 245, chroma: 1.0 },
-  '--shiki-token-string': { hue: 145, chroma: 0.85 },
-  '--shiki-token-string-expression': { hue: 145, chroma: 0.85, lightDelta: 0.02 },
-  '--shiki-token-comment': { hue: 96, chroma: 0.45 },
-  '--shiki-token-keyword': { hue: 330, chroma: 0.9 },
-  '--shiki-token-parameter': { hue: 55, chroma: 0.8 },
-  '--shiki-token-function': { hue: 285, chroma: 0.9 },
-  '--shiki-token-punctuation': { hue: 96, chroma: 0.3 },
-  '--shiki-token-link': { hue: 235, chroma: 1.0 },
+  '--shiki-token-constant': { hue: 250, chroma: 1.0 },
+  '--shiki-token-string': { hue: 150, chroma: 0.9 },
+  '--shiki-token-string-expression': { hue: 150, chroma: 0.9 },
+  '--shiki-token-comment': { hue: 80, chroma: 0.5 },
+  '--shiki-token-keyword': { hue: 335, chroma: 1.0 },
+  '--shiki-token-parameter': { hue: 55, chroma: 0.9 },
+  '--shiki-token-function': { hue: 285, chroma: 0.95 },
+  '--shiki-token-punctuation': { hue: 80, chroma: 0.35 },
+  '--shiki-token-link': { hue: 30, chroma: 1.6 },
 }
 
 /**
@@ -107,8 +123,9 @@ const SHIKI_ROLES = {
  *
  * It is deliberately opaque: it is the backdrop every contrast pair is measured
  * against, so it must be a fixed value, not something that varies with a photo.
+ * Both are warm: rice-paper white and ink black, not blue-tinted neutrals.
  */
-export const SURFACE = { light: '#f7f6f3', dark: '#14161a' }
+export const SURFACE = { light: '#faf7f2', dark: '#191513' }
 
 /** Overlay strength for the optional background image. Higher = more legible, less picture. */
 export const OVERLAY = { light: 0.82, dark: 0.88 }
@@ -192,13 +209,42 @@ const TARGETS = {
   '--dsw-static-neutral-bluish-950': { target: 14 },
   '--dsw-static-neutral-bluish-900': { target: 10 },
   '--dsw-static-neutral-bluish-700': { target: 7.2 }, // contrast-button fill (white label on it)
-  '--dsw-static-neutral-bluish-600': { target: 4.7 },
+  '--dsw-static-neutral-bluish-800': { target: 6.5, maxLightness: { dark: 0.42 } },
+  // Surfaces that should read as warm paper, not cool grey: these sit just under
+  // white in the baseline, where their own chroma is ~0.002 and cannot be scaled
+  // into visibility.
+  '--dsw-static-neutral-bluish-50': { minChroma: 0.012 },
+  '--dsw-static-neutral-bluish-60': { minChroma: 0.014 },
+  '--dsw-static-neutral-bluish-75': { minChroma: 0.016 },
+  '--dsw-static-neutral-bluish-100': { minChroma: 0.016 },
+  '--dsw-static-neutral-bluish-150': { minChroma: 0.016 },
+  '--dsw-static-neutral-bluish-200': { minChroma: 0.012 },
+  '--dsw-static-neutral-50': { minChroma: 0.012 },
+  '--dsw-static-neutral-100': { minChroma: 0.016 },
+  '--dsw-static-neutral-150': { minChroma: 0.016 },
+  '--dsw-static-neutral-200': { minChroma: 0.014 },
+  '--dsw-static-neutral-bluish-600': { target: 5.4 },
   '--dsw-static-neutral-bluish-400': { target: 3.2 },
-  '--dsw-static-deepseek-500': { target: 4.8 },
-  '--dsw-static-deepseek-450': { target: 4.8 },
-  '--dsw-static-deepseek-400': { target: 4.8 },
-  '--dsw-static-red-600': { target: 4.8 },
-  '--dsw-static-red-400': { target: 4.8 },
+  // The 16-step ladder the neutral family never quite reaches: its top is `-00`
+  // (the input surface) and everything between `-00` and `-100` is warm wash.
+  // Re-anchoring these to contrast keeps the stack readable while the family
+  // tint supplies the warmth, instead of leaving them near-white and cool.
+  '--dsw-static-neutral-850': { target: 1.0, maxLightness: { light: 0.4, dark: 0.42 } },
+  '--dsw-static-neutral-800': { target: 1.0, maxLightness: { light: 0.46, dark: 0.46 } },
+  '--dsw-static-neutral-600': { target: 6.0 },
+  '--dsw-static-neutral-300': { target: 3.0 },
+  // Cinnabar accent. Two separate corrections:
+  //   - light mode solved at 5.6: at the 4.5 floor the ratio forces saturation
+  //     down until the red reads as "dark red", not vermilion;
+  //   - dark mode gets an explicit lightness ceiling. Solving 5.6 on a
+  //     0.06-luminance surface asks for a 0.74+ OKLCH lightness, which at this
+  //     chroma turns into a neon coral — the hue is right, the volume is not.
+  //     At 0.64 the colour is #e55745: vermilion, not salmon.
+  '--dsw-static-deepseek-500': { target: 5.6, maxLightness: { light: 0.52, dark: 0.64 } },
+  '--dsw-static-deepseek-450': { target: 5.6, maxLightness: { light: 0.52, dark: 0.64 } },
+  '--dsw-static-deepseek-400': { target: 5.6, maxLightness: { light: 0.52, dark: 0.64 } },
+  '--dsw-static-red-600': { target: 5.2 },
+  '--dsw-static-red-400': { target: 5.2 },
 }
 
 /** Rainbows: re-tinted only, never re-anchored. */
@@ -227,29 +273,85 @@ export function recolourContrast(value, spec, mode) {
   const surfaceLum = luminance(backdrop)
 
   // Start from the tinted colour, then move it only as far as the target needs.
-  const tinted = spec.hue === undefined && spec.chroma === undefined
-    ? toHex(rgba)
-    : remap(value, { hue: spec.hue, chroma: spec.chroma })
-  const tintedRgba = parseColor(tinted)
+  const tintedRgba = tintSpec(value, spec, alpha)
+  const tinted = toHex(tintedRgba)
   const { L, C } = toOklch(tintedRgba)
 
   const wanted = spec.target
-  if (wanted === undefined) return tinted
-  if (contrast(tintedRgba, backdrop) >= wanted) return tinted
 
+  // A hue that reads right but is "too bright" is a different defect from one
+  // that fails its ratio. A colour-scheme-specific lightness ceiling caps the
+  // volume before the ratio search, which then trades chroma for contrast at the
+  // capped lightness — so a neon coral becomes a deep cinnabar instead.
+  const cap = spec.maxLightness?.[mode]
+  const hueForCap = spec.hue ?? toOklch(tintedRgba).h
+  const cappedHex = cap === undefined || L <= cap ? null : matchLuminance(luminanceOf(cap, C, hueForCap), C, hueForCap, alpha)
+  const startRgba = cappedHex === null ? tintedRgba : parseColor(cappedHex)
+  const startHex = cappedHex ?? tinted
+
+  // Volume control alone: the cap was the whole request.
+  if (wanted === undefined) return startHex
+  if (contrast(startRgba, backdrop) >= wanted) return startHex
+
+  const { L: startL, C: startC } = toOklch(startRgba)
+  const startHue = spec.hue ?? toOklch(startRgba).h
   const darker = luminanceNeededFor(wanted, surfaceLum, 'dark')
   const lighter = luminanceNeededFor(wanted, surfaceLum, 'light')
-  // Move in the direction that costs the least lightness change.
+  // Move in the direction that costs the least lightness change — but never past
+  // the cap: a capped colour may only trade chroma for ratio, not lightness.
   const options = []
-  if (darker !== null) options.push({ goal: darker, from: luminanceOf(L, C, spec.hue ?? toOklch(tintedRgba).h) })
-  if (lighter !== null) options.push({ goal: lighter, from: luminanceOf(L, C, spec.hue ?? toOklch(tintedRgba).h) })
+  if (darker !== null) options.push({ goal: darker, from: luminanceOf(startL, startC, startHue) })
+  if (lighter !== null) options.push({ goal: lighter, from: luminanceOf(startL, startC, startHue) })
   options.sort((a, b) => Math.abs(a.goal - a.from) - Math.abs(b.goal - b.from))
 
   for (const option of options) {
-    const hit = matchLuminance(option.goal, C, spec.hue ?? toOklch(tintedRgba).h, 1)
-    if (hit !== null && contrast(parseColor(hit), backdrop) >= wanted) return hit
+    const hit = matchLuminance(option.goal, startC, startHue, 1)
+    if (hit === null) continue
+    const hitRgba = parseColor(hit)
+    const hitOklch = toOklch(hitRgba)
+    if (cap !== undefined && hitOklch.L > cap + 1e-6) continue
+    // Chroma is what makes cinnabar cinnabar. Without this floor the search
+    // happily trades saturation for ratio and returns salmon.
+    const chromaFloor = spec.minChroma ?? 0
+    if (hitOklch.C < chromaFloor) {
+      const richer = matchLuminance(option.goal, chromaFloor, startHue, 1)
+      if (richer !== null && toOklch(parseColor(richer)).L <= (cap ?? 1) + 1e-6 && contrast(parseColor(richer), backdrop) >= wanted) {
+        return richer
+      }
+      continue
+    }
+    if (contrast(hitRgba, backdrop) >= wanted) return hit
   }
-  return tinted
+
+  // The cap and the ratio can be jointly unreachable: on a near-black surface a
+  // "3.2:1 surface fill" requires a lightness far above the cap. In that case the
+  // cap wins and the seed keeps the closest reachable value — what matters is
+  // that the caller sees a deliberate choice, not a silently over-bright fill.
+  return startHex
+}
+
+/**
+ * Apply a spec's hue / chroma to a seed colour.
+ *
+ * `chroma` is a *multiplier* on the seed's own chroma, which is the right default
+ * for the neutral ladders but wrong for an accent: a pale seed (the dark-mode
+ * blue is 0.10 chroma) survives the multiplier as a weak red. `minChroma` sets an
+ * absolute floor so the accent keeps its saturation regardless of what it was.
+ *
+ * @param {string} value Seed colour.
+ * @param {{ hue?: number, chroma?: number, minChroma?: number }} spec
+ * @param {number} alpha
+ * @returns {[number, number, number, number]}
+ */
+function tintSpec(value, spec, alpha) {
+  const base = parseColor(value)
+  const remapped = spec.hue === undefined && spec.chroma === undefined
+    ? toHex(base)
+    : remap(value, { hue: spec.hue, chroma: spec.chroma })
+  const { L, C, h } = toOklch(parseColor(remapped))
+  const chroma = Math.max(C, spec.minChroma ?? 0)
+  if (chroma === C) return parseColor(remapped)
+  return parseColor(toHex([...oklchToSrgb(L, chroma, spec.hue ?? h), alpha]))
 }
 
 /** Luminance of an OKLCH point, for choosing the cheaper direction. */
@@ -280,10 +382,8 @@ export function recolourPair(value, spec, tokens, mode) {
   const bgEntry = tokens[spec.bgToken]
   if (bgEntry === undefined) return null
   const bg = parseColor(bgEntry[mode])
-  const tinted = spec.hue === undefined && spec.chroma === undefined
-    ? toHex(rgba)
-    : remap(value, { hue: spec.hue, chroma: spec.chroma })
-  const tintedRgba = parseColor(tinted)
+  const tintedRgba = tintSpec(value, spec, rgba[3])
+  const tinted = toHex(tintedRgba)
   if (contrast(tintedRgba, bg) >= spec.floor) return tinted
 
   const bgLum = luminance(bg)
@@ -431,16 +531,29 @@ function isPreserved(name) {
 }
 
 /**
- * Recolour one ramp member or accent value.
+ * Recolour one ramp member.
+ *
+ * Most members carry chroma already, so scaling it is all they need. Pure white
+ * and pure black are the exception: `#fff` has no hue to rotate, so multiplying
+ * its chroma by anything leaves it grey. For those, a family may supply an
+ * explicit `minChroma` — the minimum chroma the result must have — and a light
+ * mode `lightnessCap` so a "paper white" lands at roughly 0.98 instead of 1.0,
+ * which is where a warm tint becomes visible at all.
+ *
  * @param {string} value Baseline declaration.
- * @param {object} family
+ * @param {{ hue?: number, chroma?: number, minChroma?: number, lightnessCap?: Record<string, number> }} family
  * @param {'light' | 'dark'} mode
  * @returns {string | null} null when the value is not a literal colour.
  */
 function recolour(value, family, mode) {
   if (!isColor(value)) return null
   const tilt = ACCENT_TILT[mode] ?? 0
-  return remap(value, { hue: family.hue, chroma: family.chroma, lightDelta: tilt })
+  const rgba = parseColor(value)
+  const { L, C, h } = toOklch(rgba)
+  const hue = family.hue ?? h
+  const seedChroma = Math.max(C * (family.chroma ?? 1), family.minChroma ?? 0)
+  const light = Math.min(L + tilt, family.lightnessCap?.[mode] ?? 1)
+  return toHex([...oklchToSrgb(Math.max(0, light), seedChroma, hue), rgba[3]])
 }
 
 /**
@@ -483,17 +596,22 @@ export function generate() {
   let dark = { ...modes.dark }
 
   // 1. Ramps: hue by family, then lift/darken the known text roles onto their
-  //    contrast target. Everything else is tint only.
+  //    contrast target. Everything else is tint only — except tint-only specs
+  //    that still need volume control (`maxLightness`), which must go through
+  //    the same path or the cap is never applied.
   for (const name of baseline.ramps) {
     const family = familyOf(name)
     if (family === null || isPreserved(name)) continue
-    const tintOnly = TINT_ONLY.some((p) => name.startsWith(p))
-    const spec = tintOnly ? null : (TARGETS[name] ?? null)
+    // State families keep their baseline volume; the neutral/surface families may
+    // carry a lightness cap, which recolourContrast applies.
+    const spec = TARGETS[name] ?? (isPreserved(name) ? null : (family.spec.maxLightness === undefined ? null : {}))
     const lv = recolour(light[name], family.spec, 'light')
     const dv = recolour(dark[name], family.spec, 'dark')
     if (lv === null && dv === null) continue
-    const l = spec === null || lv === null ? lv : recolourContrast(light[name], { ...spec, ...family.spec }, 'light')
-    const d = spec === null || dv === null ? dv : recolourContrast(dark[name], { ...spec, ...family.spec }, 'dark')
+    // Family first, then the per-seed spec: the seed's target/cap must win over
+    // the family's defaults, never the other way round.
+    const l = spec === null || lv === null ? lv : recolourContrast(light[name], { ...family.spec, ...spec }, 'light')
+    const d = spec === null || dv === null ? dv : recolourContrast(dark[name], { ...family.spec, ...spec }, 'dark')
     tokens[name] = { light: l ?? light[name], dark: d ?? dark[name] }
     provenance[name] = spec === null ? `ramp:${family.spec.label}` : `ramp:${family.spec.label}:contrast`
   }
@@ -538,7 +656,7 @@ export function generate() {
   //    - the caption sits at ~2.0:1 on white in the baseline, under every floor;
   //    - the warning label sits at 2.79:1 in light mode.
   const FOREGROUND_FIXES = [
-    { token: '--dsw-alias-label-caption', hue: 96, chroma: 0.4, target: 3.2 },
+    { token: '--dsw-alias-label-caption', hue: 80, chroma: 0.5, target: 3.2 },
     { token: '--dsw-alias-state-warn-label', hue: 55, chroma: 0.9, target: 3.05 },
   ]
   for (const fix of FOREGROUND_FIXES) {
