@@ -21,6 +21,8 @@ const data = JSON.parse(readFileSync(join(HERE, 'tokens.json'), 'utf8'))
 const report = JSON.parse(readFileSync(join(HERE, 'report.json'), 'utf8'))
 const tokens = data.tokens
 const overlay = report.overlay ?? { light: 0.82, dark: 0.88 }
+const motion = report.motion ?? null
+if (motion === null) throw new Error('report.json has no motion block — run `node tools/palette.mjs` first')
 
 /**
  * @param {string} name
@@ -58,6 +60,12 @@ const html = `<!doctype html>
 ${cssBlock('light')}
 ${cssBlock('dark')}
 
+/* The previewed motion palette, scoped per card the way the real plugin scopes
+   it to <body>. Selection and focus therefore show the real values. */
+[data-mode="light"] { --inkstone-selection: ${motion.selection.light}; --inkstone-selection-text: ${motion.selectionText.light}; --inkstone-focus-halo: ${motion.focusHalo.light}; }
+[data-mode="dark"] { --inkstone-selection: ${motion.selection.dark}; --inkstone-selection-text: ${motion.selectionText.dark}; --inkstone-focus-halo: ${motion.focusHalo.dark}; }
+[data-mode="dark"] ::selection { background: ${motion.selection.dark}; color: ${motion.selectionText.dark}; }
+
 :root { --gap: 16px; }
 * { box-sizing: border-box; }
 body {
@@ -68,6 +76,17 @@ body {
 .mode { background: var(--dsw-alias-bg-base); color: var(--dsw-alias-label-primary); padding: 28px; }
 .mode[data-mode="light"] { color-scheme: light; }
 .mode[data-mode="dark"] { color-scheme: dark; }
+
+/* Selection: the warm wash replaces the browser's default blue. */
+.mode ::selection { background: var(--inkstone-selection); color: var(--inkstone-selection-text); }
+
+/* Focus: cinnabar ring plus a soft halo. */
+.mode .composer:focus-visible,
+.mode button:focus-visible {
+  outline: 2px solid var(--dsw-alias-state-business-primary);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px var(--inkstone-focus-halo);
+}
 
 .label { font-size: 12px; color: var(--dsw-alias-label-tertiary); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 4px; }
 .caption { font-size: 12px; color: var(--dsw-alias-label-caption); }
@@ -136,6 +155,34 @@ th { color: var(--dsw-alias-label-tertiary); font-weight: 600; }
 
 .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(28px, 1fr)); gap: 4px; }
 .swatch { height: 26px; border-radius: 4px; border: 1px solid var(--dsw-alias-border-l1); }
+
+/* Motion demo: the two animations the theme actually ships. */
+.motion-demo { display: flex; flex-direction: column; gap: 12px; margin-bottom: 8px; }
+.motion-note {
+  padding: 14px 16px;
+  border-radius: var(--dsw-radius-sm);
+  border: 1px solid var(--dsw-alias-border-l1);
+  background: var(--dsw-alias-bg-layer-2);
+  color: var(--dsw-alias-label-primary);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.motion-menu {
+  align-self: flex-start;
+  padding: 8px 14px;
+  border-radius: var(--dsw-radius-sm);
+  border: 1px solid var(--dsw-alias-border-l3);
+  background: var(--dsw-specific-menu);
+  color: var(--dsw-alias-label-primary);
+  font-size: 12px;
+  box-shadow: var(--dsw-elevation-panel);
+}
+@keyframes inkstone-rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes inkstone-pop { from { opacity: 0; transform: scale(.985); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .motion-note.playing { animation: inkstone-rise 220ms cubic-bezier(.22,.61,.36,1) both; }
+  .motion-menu.playing { animation: inkstone-pop 140ms cubic-bezier(.22,.61,.36,1) both; transform-origin: top center; }
+}
 
 .bg-demo { position: relative; height: 260px; border-radius: var(--dsw-radius-md); overflow: hidden; border: 1px solid var(--dsw-alias-border-l2); }
 .bg-demo::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(135deg, #2c5364, #0f2027 55%, #c79081), radial-gradient(circle at 70% 30%, #f6d365, transparent 60%); background-blend-mode: screen; }
@@ -268,6 +315,16 @@ input[type=range] { width: 220px; vertical-align: middle; }
 </section>
 
 <section class="foot">
+  <h2 style="margin-top:26px">动效与质感</h2>
+  <div class="toolbar">
+    <span class="caption">选中下面任意文字看选区色；按 Tab 看焦点环；点「重播」看消息上浮与面板弹出。</span>
+    <button id="replayMotion" type="button" style="font:inherit;font-size:12px;padding:4px 12px;border-radius:999px;border:1px solid var(--dsw-alias-border-l2);background:var(--dsw-alias-bg-layer-3);color:var(--dsw-alias-label-primary);cursor:pointer">重播</button>
+  </div>
+  <div class="motion-demo" id="motionDemo">
+    <div class="motion-note">这句话可以拖选：选区用的是朱砂暖调，不是浏览器默认蓝。深色卡片里另有一份对应取值。</div>
+    <div class="motion-menu">菜单从锚点微微放大出现（inkstone-pop）</div>
+  </div>
+
   <h2 style="margin-top:26px">背景图 · 遮罩预览</h2>
   <div class="toolbar">
     <label>遮罩强度 <input id="strength" type="range" min="55" max="98" value="${Math.round(overlay.light * 100)}"> <span id="strengthValue">${Math.round(overlay.light * 100)}%</span></label>
@@ -332,6 +389,18 @@ input[type=range] { width: 220px; vertical-align: middle; }
   }
   slider.addEventListener('input', applyStrength)
   applyStrength()
+
+  // 重播动效：移除 class 后强制回流，再重新加上，让动画从头播。
+  const replay = document.getElementById('replayMotion')
+  const note = document.querySelector('.motion-note')
+  const menu = document.querySelector('.motion-menu')
+  replay.addEventListener('click', () => {
+    for (const el of [note, menu]) {
+      el.classList.remove('playing')
+      void el.offsetWidth
+      el.classList.add('playing')
+    }
+  })
 </script>
 </body>
 </html>

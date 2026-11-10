@@ -802,6 +802,49 @@ function status(ratio, floor, inherited) {
 }
 
 /**
+ * The three colours the motion layer needs but the design system has no token
+ * for — selection background, the text on it, and the focus halo.
+ *
+ * They are derived here, not in CSS, for one reason: a selection colour is a
+ * *text background*, so it has to pass the same gate as every other pair. A
+ * hard-coded `rgba(196,16,2,.2)` would look fine and drop selected text below
+ * 4.5:1 without anyone noticing.
+ *
+ * @param {Record<string, { light: string, dark: string }>} tokens
+ * @returns {{ selection: {light: string, dark: string}, selectionText: {light: string, dark: string}, focusHalo: {light: string, dark: string}, contrast: object[] }}
+ */
+export function deriveMotion(tokens) {
+  const accent = '--dsw-alias-state-business-primary'
+  const out = { selection: {}, selectionText: {}, focusHalo: {}, contrast: [] }
+
+  for (const mode of /** @type {const} */ (['light', 'dark'])) {
+    const surface = parseColor(SURFACE[mode])
+    const ink = tokens['--dsw-alias-label-primary'][mode]
+    const accentHex = tokens[accent]?.[mode] ?? (mode === 'light' ? '#c41002' : '#db6150')
+
+    // A wash of the accent over the surface: enough to read as "selected",
+    // light enough that body text on top still clears the body floor.
+    const { L, C, h } = toOklch(parseColor(accentHex))
+    const washL = mode === 'light' ? L + 0.34 : L - 0.22
+    const selection = toHex([...oklchToSrgb(washL, C * 0.55, h), 1])
+    out.selection[mode] = selection
+
+    // Text on the selection: keep the theme's ink when it passes, otherwise the
+    // far extreme, so a highlight can never make text unreadable.
+    const inkRatio = contrast(parseColor(ink), parseColor(selection))
+    out.selectionText[mode] = inkRatio >= 4.5 ? ink : contrast(parseColor('#000000'), parseColor(selection)) >= contrast(parseColor('#ffffff'), parseColor(selection)) ? '#000000' : '#ffffff'
+    out.contrast.push({ pair: `selection-text on selection (${mode})`, ratio: contrast(parseColor(out.selectionText[mode]), parseColor(selection)), floor: 4.5 })
+
+    // The halo is decoration, not text: a low-alpha accent ring reads as a glow
+    // without competing with the outline itself.
+    out.focusHalo[mode] = `color-mix(in srgb, ${accentHex} 28%, transparent)`
+
+    void surface
+  }
+  return out
+}
+
+/**
  * Report whether every ramp keeps its baseline relative luminance, which is the
  * invariant that makes "readability first" hold for tokens this theme never saw.
  * @param {Record<string, { light: string, dark: string }>} tokens
@@ -849,6 +892,7 @@ if (isMain) {
     },
     surface: SURFACE,
     overlay: OVERLAY,
+    motion: deriveMotion(tokens),
     pairs: result.pairs,
     shiki: result.shiki,
     failures: result.failures,

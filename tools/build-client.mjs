@@ -23,6 +23,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { motionCss, motionVariables } from './motion.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
 const ROOT = join(HERE, '..')
@@ -32,6 +33,17 @@ const data = JSON.parse(readFileSync(join(HERE, 'tokens.json'), 'utf8'))
 const tokens = data.tokens ?? {}
 const typography = data.typography ?? {}
 const radius = data.radius ?? {}
+
+/** The motion palette is derived by the generator and shipped in report.json. */
+const motion = (() => {
+  try {
+    const report = JSON.parse(readFileSync(join(HERE, 'report.json'), 'utf8'))
+    return report.motion ?? null
+  } catch {
+    return null
+  }
+})()
+if (motion === null) throw new Error('report.json has no motion block — run `node tools/palette.mjs` first')
 
 if (Object.keys(tokens).length === 0) throw new Error('tokens.json has no tokens')
 
@@ -46,6 +58,25 @@ function readReport() {
     return {}
   }
 }
+
+/**
+ * The motion stylesheet, embedded as a string so the bundle stays a single file
+ * with no sidecar reads at load time. The palette reaches it as `--inkstone-*`
+ * variables written by the client half, so the CSS carries no colour literals.
+ */
+const MOTION_CSS = motionCss({
+  surface: report.surface ?? { light: '#faf7f2', dark: '#191513' },
+  overlay: report.overlay ?? { light: 0.82, dark: 0.88 },
+  radius,
+})
+
+const MOTION_VARS = motionVariables({
+  selection: motion.selection,
+  selectionText: motion.selectionText,
+  focusHalo: motion.focusHalo,
+  surface: report.surface ?? { light: '#faf7f2', dark: '#191513' },
+  overlay: report.overlay ?? { light: 0.82, dark: 0.88 },
+})
 
 /** One scheme's tokens, as a flat `--name: value` map. */
 const schemeRows = (mode) =>
@@ -89,6 +120,16 @@ const source = [
   '',
   `${T}${T}const SOURCE = ${q(pkg.name)};`,
   `${T}${T}const STORAGE_KEY = "dsh-theme-inkstone:choice";`,
+  '',
+  `${T}${T}/**`,
+  `${T}${T} * The motion layer, embedded rather than fetched: it is static text that the`,
+  `${T}${T} * bundle already carries, and a second network round-trip would flash an`,
+  `${T}${T} * unthemed frame on every load.`,
+  `${T}${T} * Colours reach it as the --inkstone-* variables below, so the CSS itself has`,
+  `${T}${T} * no literals that could drift from the palette.`,
+  `${T}${T} */`,
+  `${T}${T}const MOTION_VARIABLES = ${q(MOTION_VARS)};`,
+  `${T}${T}const MOTION_CSS = ${q(MOTION_CSS)};`,
   '',
   `${T}${T}/**`,
   `${T}${T} * The two palettes. Each is a full set of resolved values for ONE colour`,
@@ -363,52 +404,29 @@ const source = [
   `${T}${T}${T}color: "var(--dsw-alias-label-primary)",`,
   `${T}${T}});`,
   '',
-  `${T}${T}function applyBackground(ctx, background) {`,
+  `${T}${T}function applyStyleLayer(ctx, background) {`,
   `${T}${T}${T}if (typeof document === "undefined") return;`,
-  `${T}${T}${T}if (background === undefined || background === null) return;`,
-  `${T}${T}${T}if (typeof background.url !== "string" || background.url.length === 0) return;`,
+  `${T}${T}${T}// One stylesheet for the motion layer and the optional picture: they share the`,
+  `${T}${T}${T}// same <style> so a single cleanup path retracts both.`,
+  `${T}${T}${T}const style = document.createElement("style");`,
+  `${T}${T}${T}style.dataset.plugin = SOURCE;`,
+  `${T}${T}${T}style.textContent = MOTION_VARIABLES + MOTION_CSS;`,
+  `${T}${T}${T}document.head.appendChild(style);`,
   '',
-  `${T}${T}${T}const scheme = ctx.theme?.snapshot?.active?.colorScheme === "dark" ? "dark" : "light";`,
-  `${T}${T}${T}const wash = BACKGROUND.wash[scheme];`,
-  `${T}${T}${T}const strength = Math.round(BACKGROUND.overlay[scheme] * 100);`,
-  '',
-  `${T}${T}${T}const prefix = "body[" + BG_ATTRIBUTE + "] ";`,
-  `${T}${T}${T}const css = [`,
-  `${T}${T}${T}${T}prefix + "::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:var(--inkstone-bg-image);background-size:cover;background-position:center;background-attachment:fixed}",`,
-  `${T}${T}${T}${T}prefix + "::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;backdrop-filter:blur(var(--inkstone-bg-blur));background:var(--inkstone-bg-wash)}",`,
-  `${T}${T}${T}${T}CLEARED_CONTAINERS.map((selector) => prefix + selector + "{background-color:transparent}").join(""),`,
-  `${T}${T}${T}].join("");`,
-  '',
-  `${T}${T}${T}const mount = () => {`,
-  `${T}${T}${T}${T}if (document.querySelector(ANCHOR_PROBE) === null) {`,
-  `${T}${T}${T}${T}${T}console.warn("[inkstone] no conversation anchor found — background image skipped, palette unaffected");`,
-  `${T}${T}${T}${T}${T}return;`,
-  `${T}${T}${T}${T}}`,
-  `${T}${T}${T}${T}const style = document.createElement("style");`,
-  `${T}${T}${T}${T}style.dataset.plugin = SOURCE;`,
-  `${T}${T}${T}${T}style.textContent = css;`,
-  `${T}${T}${T}${T}document.head.appendChild(style);`,
-  '',
-  `${T}${T}${T}${T}const body = document.body;`,
+  `${T}${T}${T}const hasImage = background !== undefined && background !== null && typeof background.url === "string" && background.url.length > 0;`,
+  `${T}${T}${T}const body = document.body;`,
+  `${T}${T}${T}if (hasImage) {`,
   `${T}${T}${T}${T}body.setAttribute(BG_ATTRIBUTE, "");`,
   `${T}${T}${T}${T}body.style.setProperty("--inkstone-bg-image", "url(" + JSON.stringify(background.url) + ")");`,
-  `${T}${T}${T}${T}body.style.setProperty("--inkstone-bg-wash", "color-mix(in srgb, " + wash + " " + strength + "%, transparent)");`,
   `${T}${T}${T}${T}body.style.setProperty("--inkstone-bg-blur", BACKGROUND.blurPx + "px");`,
-  '',
-  `${T}${T}${T}${T}ctx.effect(() => {`,
-  `${T}${T}${T}${T}${T}style.remove();`,
-  `${T}${T}${T}${T}${T}body.removeAttribute(BG_ATTRIBUTE);`,
-  `${T}${T}${T}${T}${T}body.style.removeProperty("--inkstone-bg-image");`,
-  `${T}${T}${T}${T}${T}body.style.removeProperty("--inkstone-bg-wash");`,
-  `${T}${T}${T}${T}${T}body.style.removeProperty("--inkstone-bg-blur");`,
-  `${T}${T}${T}${T}}, SOURCE + ": background layer");`,
-  `${T}${T}${T}};`,
-  '',
-  `${T}${T}${T}if (document.querySelector(ANCHOR_PROBE) === null && document.readyState === "loading") {`,
-  `${T}${T}${T}${T}document.addEventListener("DOMContentLoaded", mount, { once: true });`,
-  `${T}${T}${T}} else {`,
-  `${T}${T}${T}${T}mount();`,
   `${T}${T}${T}}`,
+  '',
+  `${T}${T}${T}ctx.effect(() => {`,
+  `${T}${T}${T}${T}style.remove();`,
+  `${T}${T}${T}${T}body.removeAttribute(BG_ATTRIBUTE);`,
+  `${T}${T}${T}${T}body.style.removeProperty("--inkstone-bg-image");`,
+  `${T}${T}${T}${T}body.style.removeProperty("--inkstone-bg-blur");`,
+  `${T}${T}${T}}, SOURCE + ": style layer");`,
   `${T}${T}}`,
   '',
   `${T}${T}/**
@@ -438,7 +456,7 @@ ${T}${T}}`,
   `${T}${T}${T}});`,
   `${T}${T}${T}step("register themes", () => applyThemes(ctx));`,
   `${T}${T}${T}step("register settings row", () => applySettingsRow(ctx));`,
-  `${T}${T}${T}step("background layer", () => applyBackground(ctx, globalThis.__INKSTONE_BACKGROUND__));`,
+  `${T}${T}${T}step("style layer", () => applyStyleLayer(ctx, globalThis.__INKSTONE_BACKGROUND__));`,
   `${T}${T}}`,
   '',
   `${T}${T}exports.apply = apply;`,

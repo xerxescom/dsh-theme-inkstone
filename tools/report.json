@@ -14,6 +14,32 @@
 		"light": 0.82,
 		"dark": 0.88
 	},
+	"motion": {
+		"selection": {
+			"light": "#ffbfb4",
+			"dark": "#753930"
+		},
+		"selectionText": {
+			"light": "#12110e",
+			"dark": "#fef9f1"
+		},
+		"focusHalo": {
+			"light": "color-mix(in srgb, #c41002 28%, transparent)",
+			"dark": "color-mix(in srgb, #db6150 28%, transparent)"
+		},
+		"contrast": [
+			{
+				"pair": "selection-text on selection (light)",
+				"ratio": 12.01482896257201,
+				"floor": 4.5
+			},
+			{
+				"pair": "selection-text on selection (dark)",
+				"ratio": 8.40267909561173,
+				"floor": 4.5
+			}
+		]
+	},
 	"pairs": [
 		{
 			"fg": "--dsw-alias-label-primary",

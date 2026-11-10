@@ -184,6 +184,34 @@ check(
 // as `() => {...}` that calls require() anywhere throws ReferenceError the first
 // time apply() runs — which took the whole page down once already.
 
+// ---- motion layer ---------------------------------------------------------
+// Every animation must sit behind prefers-reduced-motion, and the selection
+// pair must stay above the text floor (it is a text background).
+
+const motionGate = (report.motion?.contrast ?? [])
+const motionBroken = motionGate.filter((c) => c.ratio < c.floor)
+check(
+  "selection colours pass their floor",
+  motionGate.length === 2 && motionBroken.length === 0,
+  motionBroken.length === 0
+    ? motionGate.map((c) => c.pair.replace("selection-text on ", "") + " " + c.ratio.toFixed(1) + ":1").join(", ")
+    : motionBroken.map((c) => c.pair + " " + c.ratio.toFixed(2)).join(", "),
+)
+
+const reducedMotionGuarded = /prefers-reduced-motion:\s*no-preference/.test(clientSource) && /prefers-reduced-motion:\s*reduce/.test(clientSource)
+check(
+  "motion respects reduced-motion",
+  reducedMotionGuarded,
+  reducedMotionGuarded ? "animations gated on no-preference" : "animations must be wrapped in a prefers-reduced-motion guard",
+)
+
+const styleLayerRetractable = /style\.remove\(\)/.test(clientSource) && /function applyStyleLayer/.test(clientSource)
+check(
+  "style layer is retractable",
+  styleLayerRetractable,
+  styleLayerRetractable ? "one <style>, removed on dispose" : "the injected stylesheet must be removed when the plugin unloads",
+)
+
 const factorySignature = /factory:\s*\(\s*require\s*\)\s*=>/.test(clientSource)
 check(
   "factory accepts require",
@@ -217,7 +245,7 @@ const wiring = [
   ['restores the built-in theme', /ORIGINAL_PREFERENCE/.test(clientSource)],
   ['does not force overrideTokens', !/overrideTokens\(/.test(clientSource)],
   ['background layer is retractable', /style\.remove\(\)/.test(clientSource)],
-  ['background validates its anchors', /no conversation anchor found/.test(clientSource)],
+  ['style layer is present', /MOTION_CSS/.test(clientSource)],
 ]
 const wiringFailures = wiring.filter(([, ok]) => !ok).map(([name]) => name)
 check('client half wiring', wiringFailures.length === 0, wiringFailures.join('; ') || wiring.length + ' checks')

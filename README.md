@@ -150,6 +150,29 @@ factory: () => { const React = require("react"); ... }
 
 这两条都由 `tools/check.mjs` 守着（"factory accepts require" / "apply steps are isolated"）。
 
+## 动效与质感
+
+全部来自一个 `<style>`（`tools/motion.mjs`），只用标准 CSS 选择器，不碰 DSH 的哈希类名。
+
+| 效果 | 实现 | 退路 |
+|---|---|---|
+| 主题切换过渡 | `body` 与对话容器的 `background-color`/`color` 180ms 缓动 | 无（纯过渡） |
+| 选区色 | `::selection` 用朱砂暖调，替换浏览器默认蓝 | 无 |
+| 焦点环 | `:focus-visible` 朱砂描边 + 28% 透明度光晕 | 无 |
+| 消息上浮 | `[data-chat-turn]` 6px 上移淡入，220ms | 靠 DSH 属性，属性没了只是不播 |
+| 面板弹出 | 菜单/对话框 `scale(.985)` 展开，140ms | 同上 |
+| 光标色 | `caret-color` 跟随强调色 | 无 |
+
+**两条硬约束：**
+
+1. **动效不影响可读性。** 选区是"文字背景"，所以它也要过门禁：浅色 `#ffbfb4` 上是
+   12.0:1，深色 `#753930` 上是 8.4:1，都高于正文的 4.5 下限。这两个值由
+   `deriveMotion()` 算出来并写进 `report.json`，不是手填的。
+2. **尊重 reduced-motion。** 所有动画都在 `@media (prefers-reduced-motion: no-preference)`
+   里；系统设了减少动效时，一切瞬间完成、无位移。
+
+背景图也并进了同一个 `<style>`，卸载时整块回收。
+
 ## 怎么切换
 
 设置 → 通用 里有一行「砚 · 主题」：
@@ -216,22 +239,37 @@ npm run verify                # 以上全部
 
 ### `check.mjs` 查什么
 
-它不复算颜色，只证明磁盘上的产物互相自洽、且与已安装的 DSH 一致：
+20 项，只证明磁盘上的产物互相自洽、且与已安装的 DSH 一致，不复算颜色：
+
+**产物自洽**
 
 1. `tokens.json` 名字合法、无重复键、每项都有 light/dark；
-2. **每个 token 在已安装的 DSH 里仍然存在**（升级后第一时间发现问题）；
-3. `tokens.json` 与当前生成器输出逐 token 一致（改了策略忘记重跑会失败）；
-4. `report.json` 的配对全部 PASS，且来自当前基线版本；
-5. 阅读表面是不透明的；
-6. `lib/client.js` 的**两份调色板**都与 `tokens.json` 完全一致（浅色与深色各一份）；
-7. 客户端半侧 inject 了 `theme` 与 `slots`、注册了两个主题和一个设置行、
-   选择会写入 localStorage、能还原内置主题、**不用 overrideTokens 强推**、
-   背景层可回收且会探测锚点；
-8. 宿主半侧仍是无副作用的空 `apply()`；
-9. `package.json` / `cordis.patch.yml` / bundle id 三者同名；
-10. `exports` 指向的文件存在；
-11. **背景层依赖的四个 DOM 属性在已安装的对话包里仍然存在**；
-12. 被清空背景的容器默认仍是 `var(--dsw-alias-bg-base)`。
+2. `tokens.json` 与当前生成器输出逐 token 一致；
+3. `lib/client.js` 的两份调色板都与 `tokens.json` 完全一致；
+4. `package.json` / `cordis.patch.yml` / bundle id 三者同名；
+5. `exports` 指向的文件存在。
+
+**与已安装 DSH 一致**
+
+6. 每个 token 在已安装的 DSH 里仍然存在（升级后第一时间发现）；
+7. 背景层依赖的四个 DOM 属性仍在对话包里；
+8. 被清空背景的容器默认仍是 `var(--dsw-alias-bg-base)`。
+
+**运行时契约**（这几条都是踩过坑补上的）
+
+9. `factory` 接收 `require`（否则整页崩）；
+10. `apply` 的每一步都隔离（失败不波及宿主）；
+11. 初始选择等主题真正注册后再切换（否则默认静默失效）；
+12. 客户端 inject 了 `theme` 与 `slots`、注册两主题 + 设置行、写 localStorage、能还原原主题、
+    **不用 overrideTokens 强推**；
+13. 宿主半侧仍是无副作用的空 `apply()`。
+
+**可读性与动效**
+
+14. 38 组会话配对全 PASS，且报告来自当前基线；
+15. 选区色对文字的对比度过 4.5 下限；
+16. 动效全部置于 `prefers-reduced-motion` 守卫内；
+17. 样式层可回收。
 
 ## 与基线的差异
 
