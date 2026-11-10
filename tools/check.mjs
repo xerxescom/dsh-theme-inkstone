@@ -191,6 +191,17 @@ check(
   factorySignature ? "factory(require)" : "factory must take require as its parameter, not a bare () =>",
 )
 
+// The registry defers its body through ctx.effect, so a synchronous setTheme()
+// right after registering throws "not registered" and the default silently
+// loses. The initial choice must wait for the theme to appear in the snapshot.
+
+const waitsForRegistration = /function applyInitialChoice\(/.test(clientSource) && /snapshot\?\.themes/.test(clientSource)
+check(
+  "initial choice waits for registration",
+  waitsForRegistration,
+  waitsForRegistration ? "retries until the id is in snapshot.themes" : "applyInitialChoice must poll snapshot.themes before calling setTheme",
+)
+
 const applyGuarded = /function step\(label, fn\)/.test(clientSource) && /step\("register settings row"/.test(clientSource)
 check(
   "apply steps are isolated",
