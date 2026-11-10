@@ -8,8 +8,8 @@ DeepSeek Harness Web 客户端的主题插件。配色方向是**暖墨加一点
 2. **可选的背景图**——一张图铺在会话后面，上面盖一层固定强度的表面色遮罩，再叠一点模糊。
    默认关闭，纯色表面就是完整主题。
 
-它不改布局、不加按钮、不注册设置项。插件的全部内容是**一层 `--dsw-*` token 覆盖**，
-加上（可选时）**一个 `<style>` 标签**。
+它注册**两个可选主题**（`inkstone-light` / `inkstone-dark`）和**一个设置行**，不碰布局、
+不改动 DSH 自带的外观设置。装上之后默认选中「砚 · 浅色」，随时可以在设置里切回原主题。
 
 ```
 纸白  #faf7f2        暖中性阶：OKLCH 80°，彩度 0.006–0.016
@@ -132,6 +132,23 @@ dsh plugin --profile web add E:\github_own\dsh-theme-inkstone
 卸载：`dsh plugin --profile <name> remove dsh-theme-inkstone`，`ctx.effect` 精确回收两层。
 desktop profile 同样要走界面或 pnpm。
 
+## 怎么切换
+
+装好后打开 **设置 → 通用**，会多出一行「砚 · 主题方案」，一个下拉：
+
+| 选项 | 效果 |
+|---|---|
+| 砚 · 浅色 | 暖墨纸白 + 朱砂，浅色方案 |
+| 砚 · 深色 | 暖黑 + 珊瑚朱，深色方案 |
+| 跟随系统 | 交给 DSH 按系统深浅色自动切换（用 DSH 自己的 light/dark） |
+| 原主题 | 完全恢复安装前的外观 |
+
+**装上默认就是「砚 · 浅色」。** 选择记在浏览器的 localStorage 里，重启后保持；
+选「原主题」就彻底回到 DSH 自带配色，两者互不干扰。
+
+DSH 自己的「外观」三项（浅色/深色/跟随系统）仍然可用——它们是独立的一套，
+选「原主题」之后按哪一项都不影响砚的选择记录。
+
 ## 装好之后怎么确认
 
 控制台执行：
@@ -194,8 +211,9 @@ npm run verify                # 以上全部
 3. `tokens.json` 与当前生成器输出逐 token 一致（改了策略忘记重跑会失败）；
 4. `report.json` 的配对全部 PASS，且来自当前基线版本；
 5. 阅读表面是不透明的；
-6. `lib/client.js` 内嵌的 token 集合与 `tokens.json` 完全一致；
-7. 客户端半侧 inject 了 `theme`、用了 `overrideTokens`、disposer 进了 `ctx.effect`、
+6. `lib/client.js` 的**两份调色板**都与 `tokens.json` 完全一致（浅色与深色各一份）；
+7. 客户端半侧 inject 了 `theme` 与 `slots`、注册了两个主题和一个设置行、
+   选择会写入 localStorage、能还原内置主题、**不用 overrideTokens 强推**、
    背景层可回收且会探测锚点；
 8. 宿主半侧仍是无副作用的空 `apply()`；
 9. `package.json` / `cordis.patch.yml` / bundle id 三者同名；
@@ -207,7 +225,7 @@ npm run verify                # 以上全部
 
 | 项 | 结论 |
 |---|---|
-| 主题注册 id | 不用。第三方 id 不写盘、重启不保持；`overrideTokens` 是唯一持久路线（已核对 0.2.2-rc.1 源码） |
+| 主题注册 id | 用 `register()` 注册 `inkstone-light` / `inkstone-dark`。第三方 id 不写入设置文件，所以选择存在 localStorage；每次启动按存储值恢复 |
 | 状态色阶 | 完全保留基线。状态胶囊底色（`*-tertiary`）跟着色阶走，只换中性阶与强调色 |
 | 代码块 | 9 个 Shiki token 对**改色后的代码块**重解对比度，不是复制基线的明度 |
 | 字体 | 只覆盖 `--dsh-font-*` 默认栈，不替换成具体字体，机器缺字体时回落到系统栈 |

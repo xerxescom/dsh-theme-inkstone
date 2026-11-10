@@ -146,21 +146,30 @@ check(
 // 5. The client bundle carries exactly the same tokens
 // --------------------------------------------------------------------------
 
-const embeddedBlock = /const TOKENS = \{([\s\S]*?)\n\t\t\};/.exec(clientSource)
-const embedded = new Set()
-if (embeddedBlock !== null) {
-  for (const m of embeddedBlock[1].matchAll(/"(--[a-z0-9-]+)":/g)) embedded.add(m[1])
+const lightBlock = /const PALETTE_LIGHT = \{([\s\S]*?)\n\t\t\};/.exec(clientSource)
+const darkBlock = /const PALETTE_DARK = \{([\s\S]*?)\n\t\t\};/.exec(clientSource)
+const collect = (block) => {
+  const set = new Set()
+  if (block !== null) for (const m of block[1].matchAll(/"(--[a-z0-9-]+)":/g)) set.add(m[1])
+  return set
 }
-const notEmbedded = Object.keys(tokens).filter((name) => !embedded.has(name))
-const extraEmbedded = [...embedded].filter((name) => tokens[name] === undefined)
+const lightEmbedded = collect(lightBlock)
+const darkEmbedded = collect(darkBlock)
+const nonColourNames = [...Object.keys(data.typography ?? {}), ...Object.keys(data.radius ?? {})]
+const paletteNames = new Set([...Object.keys(tokens), ...nonColourNames])
+const missingLight = Object.keys(tokens).filter((name) => !lightEmbedded.has(name))
+const missingDark = Object.keys(tokens).filter((name) => !darkEmbedded.has(name))
+const extraLight = [...lightEmbedded].filter((name) => !paletteNames.has(name))
+const extraDark = [...darkEmbedded].filter((name) => !paletteNames.has(name))
+const paletteProblems = missingLight.length + missingDark.length + extraLight.length + extraDark.length
 check(
-  'client bundle matches tokens.json',
-  embeddedBlock !== null && notEmbedded.length === 0 && extraEmbedded.length === 0,
-  embeddedBlock === null
-    ? 'TOKENS block not found'
-    : notEmbedded.length + extraEmbedded.length === 0
-      ? `${embedded.size} tokens embedded`
-      : `missing ${notEmbedded.length}, extra ${extraEmbedded.length}`,
+  'client bundle carries both palettes',
+  lightBlock !== null && darkBlock !== null && paletteProblems === 0,
+  lightBlock === null || darkBlock === null
+    ? 'PALETTE block not found'
+    : paletteProblems === 0
+      ? lightEmbedded.size + ' light + ' + darkEmbedded.size + ' dark'
+      : 'light missing ' + missingLight.length + ', dark missing ' + missingDark.length + ', extra ' + (extraLight.length + extraDark.length),
 )
 
 // --------------------------------------------------------------------------
@@ -168,14 +177,17 @@ check(
 // --------------------------------------------------------------------------
 
 const wiring = [
-  ['injects theme service', /const inject = \["theme"\]/.test(clientSource)],
-  ['uses overrideTokens', /ctx\.theme\.overrideTokens\(/.test(clientSource)],
-  ['disposers go to ctx.effect', /ctx\.effect\(\s*\(\)\s*=>\s*ctx\.theme\.overrideTokens/.test(clientSource)],
+  ['injects theme + slots', /const inject = \["theme", "slots"\]/.test(clientSource)],
+  ['registers two themes', /ctx\.theme\.register\(/.test(clientSource) && /id: LIGHT_ID/.test(clientSource) && /id: DARK_ID/.test(clientSource)],
+  ['registers a settings row', /ctx\.slots\.register\(/.test(clientSource)],
+  ['persists the choice', /localStorage\??\.setItem\(STORAGE_KEY/.test(clientSource)],
+  ['restores the built-in theme', /ORIGINAL_PREFERENCE/.test(clientSource)],
+  ['does not force overrideTokens', !/overrideTokens\(/.test(clientSource)],
   ['background layer is retractable', /style\.remove\(\)/.test(clientSource)],
   ['background validates its anchors', /no conversation anchor found/.test(clientSource)],
 ]
 const wiringFailures = wiring.filter(([, ok]) => !ok).map(([name]) => name)
-check('client half wiring', wiringFailures.length === 0, wiringFailures.join('; ') || `${wiring.length} checks`)
+check('client half wiring', wiringFailures.length === 0, wiringFailures.join('; ') || wiring.length + ' checks')
 
 check(
   'host half has no side effects',

@@ -2,19 +2,23 @@
  * Emits `lib/client.js` — the browser half — from `tools/tokens.json`.
  *
  * The client bundle is a plain `window.__ModuleLoader__.load({ factory })` CJS
- * module, which is what the DSH Loader's lazy module table expects. A colour
- * theme needs no React, no JSX and no stylesheet import, so this file is
- * assembled as text rather than bundled: there is nothing to bundle, and keeping
- * it that way means the plugin stays installable from a checkout with no build
- * step in the loop.
+ * module, which is what the DSH Loader's lazy module table expects. A theme
+ * needs no bundler: it is assembled as text so the plugin stays installable
+ * from a checkout with no build step.
  *
- * Two layers are emitted and kept deliberately separate:
+ * What it registers:
  *
- *   1. the token layer — `ctx.theme.overrideTokens`, which needs no DOM access
- *      and is the whole plugin for the default (solid background) experience;
- *   2. the image layer — one `<style>` tag painting an optional picture behind
- *      a fixed colour wash. It rides on DSH's own conversation attributes, so it
- *      validates its anchors on mount and says so when they are gone.
+ *   1. **Two themes** — `inkstone-light` and `inkstone-dark`, each a complete
+ *      palette for its colour scheme. DSH's own Appearance row only knows
+ *      light/dark/system, so a third-party theme cannot be a *preference*; it
+ *      is selected through `setTheme(id)` and lives for this session only.
+ *   2. **A settings row** under Settings → General, with one dropdown:
+ *      砚·浅色 / 砚·深色 / 跟随系统 / 原主题. That is the switch.
+ *   3. **An optional background layer**, off unless an image is supplied.
+ *
+ * The choice is remembered in `localStorage`, which is the only persistence
+ * available to a third-party theme (the settings document only stores built-in
+ * preferences). On first install the row defaults to 砚·浅色.
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { join, dirname } from 'node:path'
@@ -33,7 +37,7 @@ if (Object.keys(tokens).length === 0) throw new Error('tokens.json has no tokens
 
 const report = readReport()
 const overlay = report.overlay ?? { light: 0.82, dark: 0.88 }
-const surface = report.surface ?? { light: '#f7f6f3', dark: '#14161a' }
+const surface = report.surface ?? { light: '#faf7f2', dark: '#191513' }
 
 function readReport() {
   try {
@@ -43,19 +47,23 @@ function readReport() {
   }
 }
 
-const rows = Object.entries(tokens)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([name, pair]) => `\t\t\t${JSON.stringify(name)}: { light: ${JSON.stringify(pair.light)}, dark: ${JSON.stringify(pair.dark)} },`)
-  .join('\n')
+/** One scheme's tokens, as a flat `--name: value` map. */
+const schemeRows = (mode) =>
+  Object.entries(tokens)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([name, pair]) => `\t\t\t\t${JSON.stringify(name)}: ${JSON.stringify(pair[mode])},`)
+    .join('\n')
 
 const nonColour = { ...typography, ...radius }
-const textRows = Object.entries(nonColour)
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([name, value]) => `\t\t\t${JSON.stringify(name)}: { light: ${JSON.stringify(value)}, dark: ${JSON.stringify(value)} },`)
-  .join('\n')
+const nonColourRows = (mode) =>
+  Object.entries(nonColour)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([name, value]) => `\t\t\t\t${JSON.stringify(name)}: ${JSON.stringify(value)},`)
+    .join('\n')
 
 const T = '\t'
 const N = '\n'
+const q = JSON.stringify
 
 const source = [
   '/**',
@@ -64,58 +72,74 @@ const source = [
   ' *',
   ` * ${pkg.description}`,
   ' *',
-  ' * Layer 1 (tokens) is written by the host theme service as inline custom',
-  ' * properties on <body>, one value per colour scheme, and retracted when the',
-  ' * plugin unloads. Layer 2 (background) exists only when an image is configured;',
-  ' * applyBackground explains why it is separate.',
+  ' * Three registrations: two themes (inkstone-light / inkstone-dark), one',
+  ' * settings row to choose between them and the built-in palettes, and an',
+  ' * optional background-image layer. See applyTheme for why the choice lives in',
+  ' * localStorage rather than the settings document.',
   ' */',
   'window.__ModuleLoader__.load({',
-  `${T}id: ${JSON.stringify(pkg.name)},`,
+  `${T}id: ${q(pkg.name)},`,
   `${T}factory: () => {`,
   `${T}${T}var module = { exports: {} };`,
   `${T}${T}var exports = module.exports;`,
   `${T}${T}Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });`,
   '',
-  `${T}${T}/** Layer identity: re-registering the same source replaces its whole layer. */`,
-  `${T}${T}const SOURCE = ${JSON.stringify(pkg.name)};`,
+  `${T}${T}const SOURCE = ${q(pkg.name)};`,
+  `${T}${T}const STORAGE_KEY = "dsh-theme-inkstone:choice";`,
   '',
   `${T}${T}/**`,
-  `${T}${T} * The palette. Every entry carries both schemes, so no token can be left`,
-  `${T}${T} * at a value meant for the other one.`,
+  `${T}${T} * The two palettes. Each is a full set of resolved values for ONE colour`,
+  `${T}${T} * scheme, because a registered theme carries a single palette (its`,
+  `${T}${T} * colorScheme picks which base stylesheet the presenter switches to).`,
   `${T}${T} */`,
-  `${T}${T}const TOKENS = {`,
-  rows,
+  `${T}${T}const PALETTE_LIGHT = {`,
+  schemeRows('light'),
+  nonColourRows('light'),
   `${T}${T}};`,
   '',
-  `${T}${T}/**`,
-  `${T}${T} * Non-colour declarations: the text and code stacks the Settings font rows`,
-  `${T}${T} * write through, and the radius scale. Same {light, dark} shape and the same`,
-  `${T}${T} * layer, because overrideTokens does not inspect what a value means.`,
-  `${T}${T} */`,
-  `${T}${T}const SURFACE_TOKENS = {`,
-  textRows,
+  `${T}${T}const PALETTE_DARK = {`,
+  schemeRows('dark'),
+  nonColourRows('dark'),
   `${T}${T}};`,
   '',
-  `${T}${T}/**`,
-  `${T}${T} * Background-image behaviour. The picture is supplied at runtime; an empty`,
-  `${T}${T} * path keeps the default solid surface and adds no stylesheet at all.`,
-  `${T}${T} */`,
+  `${T}${T}/** Theme ids. Kept out of DSH's preference enum on purpose: a third-party id`,
+  `${T}${T} *  is selected with setTheme() and is session-scoped. */`,
+  `${T}${T}const LIGHT_ID = "inkstone-light";`,
+  `${T}${T}const DARK_ID = "inkstone-dark";`,
+  '',
+  `${T}${T}/** The four choices the settings row offers. */`,
+  `${T}${T}const CHOICES = ["inkstone-light", "inkstone-dark", "system", "original"];`,
+  `${T}${T}const LABELS = {`,
+  `${T}${T}${T}"inkstone-light": "砚 · 浅色",`,
+  `${T}${T}${T}"inkstone-dark": "砚 · 深色",`,
+  `${T}${T}${T}system: "跟随系统",`,
+  `${T}${T}${T}original: "原主题",`,
+  `${T}${T}};`,
+  '',
+  `${T}${T}/** Read the remembered choice; a fresh install starts on 砚·浅色. */`,
+  `${T}${T}function readChoice() {`,
+  `${T}${T}${T}try {`,
+  `${T}${T}${T}${T}const stored = globalThis.localStorage?.getItem(STORAGE_KEY);`,
+  `${T}${T}${T}${T}return CHOICES.includes(stored) ? stored : "inkstone-light";`,
+  `${T}${T}${T}} catch {`,
+  `${T}${T}${T}${T}return "inkstone-light";`,
+  `${T}${T}${T}}`,
+  `${T}${T}}`,
+  '',
+  `${T}${T}function writeChoice(choice) {`,
+  `${T}${T}${T}try {`,
+  `${T}${T}${T}${T}globalThis.localStorage?.setItem(STORAGE_KEY, choice);`,
+  `${T}${T}${T}} catch {`,
+  `${T}${T}${T}${T}/* private mode or a blocked store: the choice still applies this session */`,
+  `${T}${T}${T}}`,
+  `${T}${T}}`,
+  '',
   `${T}${T}const BACKGROUND = {`,
-  `${T}${T}${T}/** Wash strength: higher keeps text readable, lower shows more picture. */`,
   `${T}${T}${T}overlay: { light: ${overlay.light}, dark: ${overlay.dark} },`,
-  `${T}${T}${T}/** Wash colour: the reading surface, so solid and image cases share a hue. */`,
-  `${T}${T}${T}wash: { light: ${JSON.stringify(surface.light)}, dark: ${JSON.stringify(surface.dark)} },`,
-  `${T}${T}${T}/** Blur radius in px. Decoration only: the wash, not the blur, guarantees`,
-  `${T}${T}${T} *  contrast, so this can be tuned freely without re-checking the gate. */`,
+  `${T}${T}${T}wash: { light: ${q(surface.light)}, dark: ${q(surface.dark)} },`,
   `${T}${T}${T}blurPx: 3,`,
   `${T}${T}};`,
   '',
-  `${T}${T}/**`,
-  `${T}${T} * Conversation containers that paint an opaque surface of their own. Keyed`,
-  `${T}${T} * by DSH-owned data attributes rather than hashed class names, because the`,
-  `${T}${T} * class names in the client bundle are build-scoped and change between`,
-  `${T}${T} * releases while the attributes have stayed stable.`,
-  `${T}${T} */`,
   `${T}${T}const BG_ATTRIBUTE = "data-dsh-inkstone-bg";`,
   `${T}${T}const ANCHOR_PROBE = "[data-conversation-content], [data-chat-turn]";`,
   `${T}${T}const CLEARED_CONTAINERS = [`,
@@ -125,34 +149,130 @@ const source = [
   `${T}${T}${T}"[data-chat-turn]",`,
   `${T}${T}];`,
   '',
-  `${T}${T}const inject = ["theme"];`,
+  `${T}${T}const inject = ["theme", "slots"];`,
   '',
   `${T}${T}/**`,
-  `${T}${T} * Stack the token layer.`,
+  `${T}${T} * Register both palettes. Registration is a declaration; nothing changes on`,
+  `${T}${T} * screen until one of them is selected, so the built-in Appearance row keeps`,
+  `${T}${T} * working exactly as before while 砚 is not active.`,
   `${T}${T} * @param ctx - client cordis context.`,
   `${T}${T} */`,
-  `${T}${T}function applyTokens(ctx) {`,
-  `${T}${T}${T}if (typeof ctx.theme?.overrideTokens !== "function") {`,
-  `${T}${T}${T}${T}console.warn("[inkstone] theme service has no overrideTokens — palette not applied (needs dsh-client-ui-theme >= 0.2)");`,
+  `${T}${T}function applyThemes(ctx) {`,
+  `${T}${T}${T}if (typeof ctx.theme?.register !== "function") {`,
+  `${T}${T}${T}${T}console.warn("[inkstone] theme service has no register() — themes not offered (needs dsh-client-ui-theme >= 0.2)");`,
   `${T}${T}${T}${T}return;`,
   `${T}${T}${T}}`,
-  `${T}${T}${T}ctx.effect(`,
-  `${T}${T}${T}${T}() => ctx.theme.overrideTokens(SOURCE, { ...TOKENS, ...SURFACE_TOKENS }),`,
-  `${T}${T}${T}${T}SOURCE + ": token layer",`,
-  `${T}${T}${T});`,
+  `${T}${T}${T}ctx.effect(() => ctx.theme.register({ id: LIGHT_ID, colorScheme: "light", tokens: PALETTE_LIGHT }), SOURCE + ": light palette");`,
+  `${T}${T}${T}ctx.effect(() => ctx.theme.register({ id: DARK_ID, colorScheme: "dark", tokens: PALETTE_DARK }), SOURCE + ": dark palette");`,
   `${T}${T}}`,
   '',
   `${T}${T}/**`,
-  `${T}${T} * Paint an optional picture behind the session.`,
-  `${T}${T} *`,
-  `${T}${T} * Separate from the token layer on purpose: this is the only part of the`,
-  `${T}${T} * plugin that writes CSS selectors, and the only part that can silently do`,
-  `${T}${T} * nothing when DSH changes its markup. When it cannot find its anchors it`,
-  `${T}${T} * removes itself and says so, rather than leaving dead rules in the DOM.`,
-  `${T}${T} *`,
+  `${T}${T} * Apply one choice. "original" and "system" hand control back to the host:`,
+  `${T}${T} * setTheme("system") resolves through prefers-color-scheme exactly as the`,
+  `${T}${T} * built-in row does, and "original" restores whichever built-in preference was`,
+  `${T}${T} * in effect before 砚 took over.`,
   `${T}${T} * @param ctx - client cordis context.`,
-  `${T}${T} * @param background - { url } when an image is configured, otherwise undefined.`,
+  `${T}${T} * @param choice - one of CHOICES.`,
   `${T}${T} */`,
+  `${T}${T}function applyChoice(ctx, choice) {`,
+  `${T}${T}${T}if (typeof ctx.theme?.setTheme !== "function") return;`,
+  `${T}${T}${T}try {`,
+  `${T}${T}${T}${T}if (choice === "inkstone-light") ctx.theme.setTheme(LIGHT_ID);`,
+  `${T}${T}${T}${T}else if (choice === "inkstone-dark") ctx.theme.setTheme(DARK_ID);`,
+  `${T}${T}${T}${T}else if (choice === "system") ctx.theme.setTheme("system");`,
+  `${T}${T}${T}${T}else if (choice === "original") {`,
+  `${T}${T}${T}${T}${T}// Restore the built-in preference the user had before the theme took over.`,
+  `${T}${T}${T}${T}${T}const preference = ORIGINAL_PREFERENCE.current ?? "system";`,
+  `${T}${T}${T}${T}${T}ctx.theme.setTheme(preference);`,
+  `${T}${T}${T}${T}}`,
+  `${T}${T}${T}} catch (error) {`,
+  `${T}${T}${T}${T}console.warn("[inkstone] could not switch theme:", error);`,
+  `${T}${T}${T}}`,
+  `${T}${T}}`,
+  '',
+  `${T}${T}/**`,
+  `${T}${T} * The built-in preference to return to. Captured once at mount, before 砚 is`,
+  `${T}${T} * selected, so "原主题" means what the user actually had.`,
+  `${T}${T} */`,
+  `${T}${T}const ORIGINAL_PREFERENCE = { current: null };`,
+  '',
+  `${T}${T}/**`,
+  `${T}${T} * The settings row. Written with createElement rather than JSX so the bundle`,
+  `${T}${T} * still needs no build step: the primitives package supplies the`,
+  `${T}${T} * select control, and the row follows the same slot contract as DSH's own rows.`,
+  `${T}${T} * @param ctx - client cordis context.`,
+  `${T}${T} */`,
+  `${T}${T}function applySettingsRow(ctx) {`,
+  `${T}${T}${T}if (typeof ctx.slots?.inject !== "function" || typeof ctx.slots.register !== "function") {`,
+  `${T}${T}${T}${T}console.warn("[inkstone] slots service unavailable — settings row not registered");`,
+  `${T}${T}${T}${T}return;`,
+  `${T}${T}${T}}`,
+  '',
+  `${T}${T}${T}const react = require("react");`,
+  `${T}${T}${T}const h = react.createElement;`,
+  '',
+  `${T}${T}${T}function InkstoneRow(props) {`,
+  `${T}${T}${T}${T}const choice = props.useChooser((s) => s.choice);`,
+  `${T}${T}${T}${T}return h("div", { style: ROW_STYLE },`,
+  `${T}${T}${T}${T}${T}h("div", { style: TITLE_STYLE }, "砚 · 主题方案"),`,
+  `${T}${T}${T}${T}${T}h("div", { style: HINT_STYLE }, "选择配色方案。选「原主题」即恢复 DSH 自带外观。"),`,
+  `${T}${T}${T}${T}${T}h("div", { style: CONTROL_STYLE },`,
+  `${T}${T}${T}${T}${T}${T}h("select", {`,
+  `${T}${T}${T}${T}${T}${T}${T}value: choice,`,
+  `${T}${T}${T}${T}${T}${T}${T}"aria-label": "主题方案",`,
+  `${T}${T}${T}${T}${T}${T}${T}onChange: (event) => props.setChoice(event.target.value),`,
+  `${T}${T}${T}${T}${T}${T}${T}style: SELECT_STYLE,`,
+  `${T}${T}${T}${T}${T}${T}},`,
+  `${T}${T}${T}${T}${T}${T}${T}CHOICES.map((id) => h("option", { key: id, value: id }, LABELS[id]))),`,
+  `${T}${T}${T}${T}${T}),`,
+  `${T}${T}${T}${T});`,
+  `${T}${T}${T}}`,
+  '',
+  `${T}${T}${T}// A tiny store so the row re-renders when the choice changes from elsewhere.`,
+  `${T}${T}${T}let choice = readChoice();`,
+  `${T}${T}${T}const listeners = new Set();`,
+  `${T}${T}${T}const useChooser = (selector) => {`,
+  `${T}${T}${T}${T}const [, force] = react.useReducer((n) => n + 1, 0);`,
+  `${T}${T}${T}${T}react.useEffect(() => {`,
+  `${T}${T}${T}${T}${T}listeners.add(force);`,
+  `${T}${T}${T}${T}${T}return () => listeners.delete(force);`,
+  `${T}${T}${T}${T}}, []);`,
+  `${T}${T}${T}${T}return selector({ choice });`,
+  `${T}${T}${T}};`,
+  `${T}${T}${T}const setChoice = (next) => {`,
+  `${T}${T}${T}${T}if (!CHOICES.includes(next) || next === choice) return;`,
+  `${T}${T}${T}${T}choice = next;`,
+  `${T}${T}${T}${T}writeChoice(next);`,
+  `${T}${T}${T}${T}applyChoice(ctx, next);`,
+  `${T}${T}${T}${T}for (const notify of listeners) notify();`,
+  `${T}${T}${T}};`,
+  '',
+  `${T}${T}${T}ctx.slots.inject("settings.general.item", () => ctx.slots.register({`,
+  `${T}${T}${T}${T}name: "settings.general.item",`,
+  `${T}${T}${T}${T}id: "inkstone-theme",`,
+  `${T}${T}${T}${T}order: 12,`,
+  `${T}${T}${T}${T}inject: () => ({ useChooser, setChoice }),`,
+  `${T}${T}${T}}, InkstoneRow));`,
+  '',
+  `${T}${T}${T}// Apply the remembered choice after registration, so both ids exist.`,
+  `${T}${T}${T}applyChoice(ctx, choice);`,
+  `${T}${T}}`,
+  '',
+  `${T}${T}const ROW_STYLE = { display: "flex", flexDirection: "column", gap: "6px" };`,
+  `${T}${T}const TITLE_STYLE = { fontSize: "13px", fontWeight: "500" };`,
+  `${T}${T}const HINT_STYLE = { fontSize: "12px", opacity: 0.6 };`,
+  `${T}${T}const CONTROL_STYLE = { marginTop: "4px" };`,
+  `${T}${T}const SELECT_STYLE = {`,
+  `${T}${T}${T}font: "inherit",`,
+  `${T}${T}${T}fontSize: "13px",`,
+  `${T}${T}${T}padding: "4px 8px",`,
+  `${T}${T}${T}borderRadius: "6px",`,
+  `${T}${T}${T}border: "1px solid var(--dsw-alias-border-l2)",`,
+  `${T}${T}${T}background: "var(--dsw-specific-input-major)",`,
+  `${T}${T}${T}color: "var(--dsw-alias-label-primary)",`,
+  `${T}${T}${T}minWidth: "160px",`,
+  `${T}${T}};`,
+  '',
   `${T}${T}function applyBackground(ctx, background) {`,
   `${T}${T}${T}if (typeof document === "undefined") return;`,
   `${T}${T}${T}if (background === undefined || background === null) return;`,
@@ -162,19 +282,10 @@ const source = [
   `${T}${T}${T}const wash = BACKGROUND.wash[scheme];`,
   `${T}${T}${T}const strength = Math.round(BACKGROUND.overlay[scheme] * 100);`,
   '',
-  `${T}${T}${T}// One string per rule, joined at runtime: the selectors contain braces and`,
-  `${T}${T}${T}// quotes, and a line-by-line array turns that into a quoting puzzle.`,
   `${T}${T}${T}const prefix = "body[" + BG_ATTRIBUTE + "] ";`,
   `${T}${T}${T}const css = [`,
-  `${T}${T}${T}${T}// The picture itself, fixed to the viewport so it does not scroll with the`,
-  `${T}${T}${T}${T}// session.`,
   `${T}${T}${T}${T}prefix + "::before{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;background-image:var(--inkstone-bg-image);background-size:cover;background-position:center;background-attachment:fixed}",`,
-  `${T}${T}${T}${T}// The wash. Opaque by design: every contrast pair in this theme is measured`,
-  `${T}${T}${T}${T}// against this colour, so a picture can never change text contrast. The blur`,
-  `${T}${T}${T}${T}// rides on top of the wash and is decoration only.`,
   `${T}${T}${T}${T}prefix + "::after{content:'';position:fixed;inset:0;z-index:0;pointer-events:none;backdrop-filter:blur(var(--inkstone-bg-blur));background:var(--inkstone-bg-wash)}",`,
-  `${T}${T}${T}${T}// Let the picture through: these containers paint the only opaque`,
-  `${T}${T}${T}${T}// surfaces over the page background.`,
   `${T}${T}${T}${T}CLEARED_CONTAINERS.map((selector) => prefix + selector + "{background-color:transparent}").join(""),`,
   `${T}${T}${T}].join("");`,
   '',
@@ -203,7 +314,6 @@ const source = [
   `${T}${T}${T}${T}}, SOURCE + ": background layer");`,
   `${T}${T}${T}};`,
   '',
-  `${T}${T}${T}// The conversation may mount after the plugin; wait for it once.`,
   `${T}${T}${T}if (document.querySelector(ANCHOR_PROBE) === null && document.readyState === "loading") {`,
   `${T}${T}${T}${T}document.addEventListener("DOMContentLoaded", mount, { once: true });`,
   `${T}${T}${T}} else {`,
@@ -211,13 +321,14 @@ const source = [
   `${T}${T}${T}}`,
   `${T}${T}}`,
   '',
-  `${T}${T}/**`,
-  `${T}${T} * Client plugin body.`,
-  `${T}${T} * @param ctx - client cordis context.`,
-  `${T}${T} */`,
   `${T}${T}function apply(ctx) {`,
-  `${T}${T}${T}applyTokens(ctx);`,
-  `${T}${T}${T}// No image configured means no second layer: the solid surface is the theme.`,
+  `${T}${T}${T}// Capture the built-in preference before 砚 can take over.`,
+  `${T}${T}${T}if (ORIGINAL_PREFERENCE.current === null) {`,
+  `${T}${T}${T}${T}const preference = ctx.theme?.snapshot?.preference;`,
+  `${T}${T}${T}${T}ORIGINAL_PREFERENCE.current = preference === "light" || preference === "dark" ? preference : "system";`,
+  `${T}${T}${T}}`,
+  `${T}${T}${T}applyThemes(ctx);`,
+  `${T}${T}${T}applySettingsRow(ctx);`,
   `${T}${T}${T}applyBackground(ctx, globalThis.__INKSTONE_BACKGROUND__);`,
   `${T}${T}}`,
   '',
@@ -231,4 +342,6 @@ const source = [
 
 mkdirSync(join(ROOT, 'lib'), { recursive: true })
 writeFileSync(join(ROOT, 'lib', 'client.js'), source)
-console.log(`wrote lib/client.js (${Object.keys(tokens).length} colour tokens + ${Object.keys(nonColour).length} non-colour, ${source.length} bytes)`)
+console.log(
+  `wrote lib/client.js (2 themes × ${Object.keys(tokens).length} colour + ${Object.keys(nonColour).length} non-colour tokens, ${source.length} bytes)`,
+)
