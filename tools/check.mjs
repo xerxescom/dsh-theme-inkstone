@@ -20,7 +20,7 @@ import { existsSync, readFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { readBaseline, readClientBundle } from './baseline.mjs'
-import { contrast, isColor, parseColor } from './color.mjs'
+import { contrast, isColor, parseColor, toOklch } from './color.mjs'
 import { gate, generate } from './palette.mjs'
 
 const HERE = dirname(fileURLToPath(import.meta.url))
@@ -210,6 +210,31 @@ check(
   "style layer is retractable",
   styleLayerRetractable,
   styleLayerRetractable ? "one <style>, removed on dispose" : "the injected stylesheet must be removed when the plugin unloads",
+)
+
+// ---- dark surface ladder --------------------------------------------------
+// "Do not ship a black layout": the dark reading surface must clear L 0.24
+// (below that the warm tint disappears on most panels) and each step up the
+// stack must gain enough lightness to read as a separate surface.
+
+const darkSurface = tokens["--dsw-alias-bg-base"]?.dark
+const darkSurfaceOklch = darkSurface ? toOklch(parseColor(darkSurface)) : null
+check(
+  "dark surface is ink, not black",
+  darkSurfaceOklch !== null && darkSurfaceOklch.L >= 0.24 && darkSurfaceOklch.C >= 0.006,
+  darkSurfaceOklch === null
+    ? "no dark surface"
+    : `${darkSurface} L=${darkSurfaceOklch.L.toFixed(3)} C=${darkSurfaceOklch.C.toFixed(3)}`,
+)
+
+const ladder = ["--dsw-specific-sidebar-fill", "--dsw-alias-bg-layer-1", "--dsw-alias-bg-layer-2", "--dsw-alias-bg-layer-3"]
+const ladderL = [darkSurfaceOklch?.L, ...ladder.map((n) => (tokens[n]?.dark ? toOklch(parseColor(tokens[n].dark)).L : NaN))]
+const steps = ladderL.slice(1).map((L, i) => L - ladderL[i])
+const minStep = 0.025
+check(
+  "dark stack separates into layers",
+  steps.every((d) => Number.isFinite(d) && d >= minStep),
+  steps.map((d) => d.toFixed(3)).join(" / ") + " (min " + minStep + ")",
 )
 
 const factorySignature = /factory:\s*\(\s*require\s*\)\s*=>/.test(clientSource)

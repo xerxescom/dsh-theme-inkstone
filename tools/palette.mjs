@@ -65,7 +65,11 @@ export const FAMILIES = {
   // pure white for the warmth to be measurable at all (OKLCH 0.98 ≈ #fbf7f0).
   '--dsw-static-neutral-bluish-00': { hue: 80, chroma: 1, minChroma: 0.011, lightnessCap: { light: 0.978 }, label: 'paper' },
   '--dsw-static-neutral-00': { hue: 80, chroma: 1, minChroma: 0.011, lightnessCap: { light: 0.978 }, label: 'paper' },
-  '--dsw-static-neutral-': { hue: 80, chroma: 2.2, minChroma: 0.006, label: 'ash' },
+  // The ash family paints the dark cards, bubbles and inputs. Its baseline
+  // chroma is ~0.002, which the `chroma` multiplier cannot lift into visibility,
+  // so it gets a floor like the paper family — otherwise dark mode is grey, and
+  // grey is the whole "flat black layout" problem.
+  '--dsw-static-neutral-': { hue: 80, chroma: 2.2, minChroma: 0.008, label: 'ash' },
   // Code/UI secondary hue, kept far from the accent so it never reads as a link.
   '--dsw-static-blue': { hue: 250, chroma: 1.0, label: 'slate-blue' },
   '--dsw-static-violet': { hue: 300, chroma: 0.9, label: 'violet' },
@@ -118,14 +122,17 @@ const SHIKI_ROLES = {
 }
 
 /**
- * The reading surface. The overlay is what shows through when `bg-base` is made
- * translucent for a background image; with the image off it *is* the surface.
+ * The reading surface — also the wash colour behind an optional picture.
  *
- * It is deliberately opaque: it is the backdrop every contrast pair is measured
- * against, so it must be a fixed value, not something that varies with a photo.
- * Both are warm: rice-paper white and ink black, not blue-tinted neutrals.
+ * Opaque on purpose: every contrast pair is measured against it, so it must be
+ * a fixed value rather than something a photograph can vary.
+ *
+ * Dark is `#23201c` at OKLCH L 0.245: warm ink rather than black. Below about
+ * L 0.25 the warm tint stops registering on most panels and the whole UI reads
+ * as a black field; the four ladder steps above it are spaced ~0.03 L so cards,
+ * bubbles and menus separate without needing stronger borders.
  */
-export const SURFACE = { light: '#faf7f2', dark: '#191513' }
+export const SURFACE = { light: '#faf7f2', dark: '#23201c' }
 
 /** Overlay strength for the optional background image. Higher = more legible, less picture. */
 export const OVERLAY = { light: 0.82, dark: 0.88 }
@@ -209,7 +216,6 @@ const TARGETS = {
   '--dsw-static-neutral-bluish-950': { target: 14 },
   '--dsw-static-neutral-bluish-900': { target: 10 },
   '--dsw-static-neutral-bluish-700': { target: 7.2 }, // contrast-button fill (white label on it)
-  '--dsw-static-neutral-bluish-800': { target: 6.5, maxLightness: { dark: 0.42 } },
   // Surfaces that should read as warm paper, not cool grey: these sit just under
   // white in the baseline, where their own chroma is ~0.002 and cannot be scaled
   // into visibility.
@@ -227,12 +233,27 @@ const TARGETS = {
   '--dsw-static-neutral-bluish-400': { target: 3.2 },
   // The 16-step ladder the neutral family never quite reaches: its top is `-00`
   // (the input surface) and everything between `-00` and `-100` is warm wash.
-  // Re-anchoring these to contrast keeps the stack readable while the family
-  // tint supplies the warmth, instead of leaving them near-white and cool.
-  '--dsw-static-neutral-850': { target: 1.0, maxLightness: { light: 0.4, dark: 0.42 } },
-  '--dsw-static-neutral-800': { target: 1.0, maxLightness: { light: 0.46, dark: 0.46 } },
+  //
+  // Two different mechanisms, one per scheme:
+  //   - light: re-anchored to *contrast*, so the stack stays readable while the
+  //     family tint supplies the warmth (near-white layers cannot be tinted by
+  //     scaling a chroma of 0.002);
+  //   - dark: pinned to *lightness*. With a near-black surface the contrast
+  //     ratios between adjacent layers are nearly equal, so the stack collapses
+  //     into one black field with faint edges — the "pure black layout" look.
   '--dsw-static-neutral-600': { target: 6.0 },
   '--dsw-static-neutral-300': { target: 3.0 },
+  // Dark surface ladder. The background moves to L 0.245 (from 0.200, close
+  // enough to black that the warm tint vanished), then ~0.03 L per step — the
+  // smallest gap at which a card edge still reads as an edge. The steps are
+  // checked by tools/check.mjs, which fails if any gap drops below 0.025.
+  '--dsw-static-neutral-bluish-950': { target: 14, fixedLightness: { dark: 0.245 } }, // reading surface
+  '--dsw-static-neutral-bluish-900': { target: 10, fixedLightness: { dark: 0.278 }, minChroma: 0.008 }, // sidebar, code block
+  '--dsw-static-neutral-bluish-875': { fixedLightness: { dark: 0.308 }, minChroma: 0.008 }, // layer-1
+  '--dsw-static-neutral-bluish-850': { fixedLightness: { dark: 0.338 }, minChroma: 0.008 }, // layer-2, bubble, input
+  '--dsw-static-neutral-bluish-800': { target: 6.5, maxLightness: { light: 0.46 }, fixedLightness: { dark: 0.368 }, minChroma: 0.009 }, // citation, layer-3
+  '--dsw-static-neutral-850': { target: 1.0, maxLightness: { light: 0.4 }, fixedLightness: { dark: 0.368 }, minChroma: 0.008 },
+  '--dsw-static-neutral-800': { target: 1.0, maxLightness: { light: 0.46 }, fixedLightness: { dark: 0.398 }, minChroma: 0.008 },
   // Cinnabar accent. Two separate corrections:
   //   - light mode solved at 5.6: at the 4.5 floor the ratio forces saturation
   //     down until the red reads as "dark red", not vermilion;
@@ -278,6 +299,19 @@ export function recolourContrast(value, spec, mode) {
   const { L, C } = toOklch(tintedRgba)
 
   const wanted = spec.target
+
+  // An absolute lightness, used for the dark-mode surface ladder. A ratio target
+  // cannot express "this card must sit at L 0.315": on a near-black backdrop the
+  // ratio distances between adjacent layers collapse (0.285 and 0.315 differ by
+  // less than one contrast step), so the stack reads as one flat black field.
+  // The ladder is therefore pinned by lightness and its contrast is only checked
+  // afterwards.
+  const fixed = spec.fixedLightness?.[mode]
+  if (fixed !== undefined) {
+    const { C: fixedC } = toOklch(tintedRgba)
+    const pinned = matchLuminance(luminanceOf(fixed, fixedC, spec.hue ?? toOklch(tintedRgba).h), fixedC, spec.hue ?? toOklch(tintedRgba).h, alpha)
+    if (pinned !== null) return pinned
+  }
 
   // A hue that reads right but is "too bright" is a different defect from one
   // that fails its ratio. A colour-scheme-specific lightness ceiling caps the

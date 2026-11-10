@@ -8,7 +8,7 @@
 	},
 	"surface": {
 		"light": "#faf7f2",
-		"dark": "#191513"
+		"dark": "#23201c"
 	},
 	"overlay": {
 		"light": 0.82,
@@ -56,7 +56,7 @@
 			"floor": 7,
 			"why": "正文",
 			"mode": "dark",
-			"ratio": 17.300984788438445,
+			"ratio": 15.472682238369195,
 			"status": "PASS"
 		},
 		{
@@ -74,7 +74,7 @@
 			"floor": 4.5,
 			"why": "次要文字",
 			"mode": "dark",
-			"ratio": 12.35535804994476,
+			"ratio": 11.049690603498117,
 			"status": "PASS"
 		},
 		{
@@ -92,7 +92,7 @@
 			"floor": 4.5,
 			"why": "辅助文字",
 			"mode": "dark",
-			"ratio": 8.484621358703192,
+			"ratio": 7.587998706514316,
 			"status": "PASS"
 		},
 		{
@@ -112,7 +112,7 @@
 			"why": "说明文字",
 			"inherited": true,
 			"mode": "dark",
-			"ratio": 4.895934052315481,
+			"ratio": 4.378550283571807,
 			"status": "PASS"
 		},
 		{
@@ -130,7 +130,7 @@
 			"floor": 4.5,
 			"why": "链接",
 			"mode": "dark",
-			"ratio": 5.041198263254411,
+			"ratio": 4.508463522844028,
 			"status": "PASS"
 		},
 		{
@@ -148,7 +148,7 @@
 			"floor": 7,
 			"why": "用户气泡",
 			"mode": "dark",
-			"ratio": 12.92924506971393,
+			"ratio": 11.33019267797826,
 			"status": "PASS"
 		},
 		{
@@ -166,7 +166,7 @@
 			"floor": 7,
 			"why": "引用块",
 			"mode": "dark",
-			"ratio": 11.516142069611185,
+			"ratio": 9.998556825036601,
 			"status": "PASS"
 		},
 		{
@@ -184,7 +184,7 @@
 			"floor": 7,
 			"why": "代码块",
 			"mode": "dark",
-			"ratio": 16.444840285308064,
+			"ratio": 14.035347258164636,
 			"status": "PASS"
 		},
 		{
@@ -202,7 +202,7 @@
 			"floor": 7,
 			"why": "行内代码",
 			"mode": "dark",
-			"ratio": 13.837190235543545,
+			"ratio": 8.842811914778528,
 			"status": "PASS"
 		},
 		{
@@ -220,7 +220,7 @@
 			"floor": 7,
 			"why": "代码块标题条",
 			"mode": "dark",
-			"ratio": 12.92924506971393,
+			"ratio": 11.33019267797826,
 			"status": "PASS"
 		},
 		{
@@ -238,7 +238,7 @@
 			"floor": 7,
 			"why": "输入框",
 			"mode": "dark",
-			"ratio": 12.92924506971393,
+			"ratio": 11.33019267797826,
 			"status": "PASS"
 		},
 		{
@@ -256,7 +256,7 @@
 			"floor": 4.5,
 			"why": "输入框占位",
 			"mode": "dark",
-			"ratio": 9.233315565860163,
+			"ratio": 8.091365261752767,
 			"status": "PASS"
 		},
 		{
@@ -274,7 +274,7 @@
 			"floor": 7,
 			"why": "侧栏",
 			"mode": "dark",
-			"ratio": 16.444840285308064,
+			"ratio": 14.035347258164636,
 			"status": "PASS"
 		},
 		{
@@ -292,7 +292,7 @@
 			"floor": 4.5,
 			"why": "侧栏次级",
 			"mode": "dark",
-			"ratio": 11.743949392690942,
+			"ratio": 10.02322947800166,
 			"status": "PASS"
 		},
 		{
@@ -319,7 +319,7 @@
 			"floor": 4.5,
 			"why": "Toast 文字",
 			"mode": "light",
-			"ratio": 11.324750071682642,
+			"ratio": 11.283952413142456,
 			"status": "PASS"
 		},
 		{
@@ -346,7 +346,7 @@
 			"floor": 4.5,
 			"why": "业务色（链接/按钮）",
 			"mode": "dark",
-			"ratio": 5.041198263254411,
+			"ratio": 4.508463522844028,
 			"status": "PASS"
 		},
 		{
@@ -366,7 +366,7 @@
 			"why": "警告文字",
 			"inherited": true,
 			"mode": "dark",
-			"ratio": 6.708584011863478,
+			"ratio": 5.999646260271429,
 			"status": "PASS"
 		},
 		{
@@ -400,7 +400,7 @@
 		{
 			"token": "--shiki-token-constant",
 			"mode": "dark",
-			"ratio": 6.934582522466511,
+			"ratio": 5.918529587676895,
 			"status": "PASS"
 		},
 		{
@@ -412,7 +412,7 @@
 		{
 			"token": "--shiki-token-string",
 			"mode": "dark",
-			"ratio": 9.808298690010895,
+			"ratio": 8.371189731109348,
 			"status": "PASS"
 		},
 		{
@@ -424,7 +424,7 @@
 		{
 			"token": "--shiki-token-string-expression",
 			"mode": "dark",
-			"ratio": 11.610595329215817,
+			"ratio": 9.909414411592481,
 			"status": "PASS"
 		},
 		{
@@ -436,7 +436,7 @@
 		{
 			"token": "--shiki-token-comment",
 			"mode": "dark",
-			"ratio": 8.254250642667522,
+			"ratio": 7.0448403338565475,
 			"status": "PASS"
 		},
 		{
@@ -448,7 +448,7 @@
 		{
 			"token": "--shiki-token-keyword",
 			"mode": "dark",
-			"ratio": 9.051239018311723,
+			"ratio": 7.725054213639897,
 			"status": "PASS"
 		},
 		{
@@ -460,7 +460,7 @@
 		{
 			"token": "--shiki-token-parameter",
 			"mode": "dark",
-			"ratio": 9.024212655323515,
+			"ratio": 7.701987745186349,
 			"status": "PASS"
 		},
 		{
@@ -472,7 +472,7 @@
 		{
 			"token": "--shiki-token-function",
 			"mode": "dark",
-			"ratio": 7.204706455773897,
+			"ratio": 6.149075043937582,
 			"status": "PASS"
 		},
 		{
@@ -484,7 +484,7 @@
 		{
 			"token": "--shiki-token-punctuation",
 			"mode": "dark",
-			"ratio": 11.514425053511951,
+			"ratio": 9.827334975611391,
 			"status": "PASS"
 		},
 		{
@@ -496,7 +496,7 @@
 		{
 			"token": "--shiki-token-link",
 			"mode": "dark",
-			"ratio": 8.284672649954421,
+			"ratio": 7.070804917832685,
 			"status": "PASS"
 		}
 	],
@@ -505,7 +505,7 @@
 		"light": [
 			{
 				"name": "--dsw-static-neutral-300",
-				"drift": 0.38188118411947464
+				"drift": 0.38154538233196755
 			},
 			{
 				"name": "--dsw-static-deepseek-400",
@@ -526,16 +526,12 @@
 		],
 		"dark": [
 			{
-				"name": "--dsw-static-neutral-bluish-950",
-				"drift": 0.7534780229780753
-			},
-			{
-				"name": "--dsw-static-neutral-bluish-700",
-				"drift": 0.23591255458225066
+				"name": "--dsw-static-neutral-bluish-1000",
+				"drift": 0.9172219920775998
 			},
 			{
 				"name": "--dsw-static-neutral-600",
-				"drift": 0.2067235176232372
+				"drift": 0.24784586466860192
 			},
 			{
 				"name": "--dsw-static-deepseek-400",
@@ -544,6 +540,10 @@
 			{
 				"name": "--dsw-static-deepseek-50",
 				"drift": 0.08083062843452282
+			},
+			{
+				"name": "--dsw-alias-border-inverted2",
+				"drift": 0.0482693220267143
 			}
 		]
 	},
@@ -604,8 +604,8 @@
 		"--dsw-static-neutral-bluish-75": "ramp:ink:contrast",
 		"--dsw-static-neutral-bluish-750": "ramp:ink",
 		"--dsw-static-neutral-bluish-800": "ramp:ink:contrast",
-		"--dsw-static-neutral-bluish-850": "ramp:ink",
-		"--dsw-static-neutral-bluish-875": "ramp:ink",
+		"--dsw-static-neutral-bluish-850": "ramp:ink:contrast",
+		"--dsw-static-neutral-bluish-875": "ramp:ink:contrast",
 		"--dsw-static-neutral-bluish-90": "ramp:ink",
 		"--dsw-static-neutral-bluish-900": "ramp:ink:contrast",
 		"--dsw-static-neutral-bluish-950": "ramp:ink:contrast",
