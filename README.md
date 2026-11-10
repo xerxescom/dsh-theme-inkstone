@@ -96,18 +96,46 @@ DeepSeek Harness Web 客户端的主题插件。配色方向是**暖墨加一点
 
 ## 安装
 
-```sh
-# 从 GitHub
-dsh plugin --profile web add github:xerxescom/dsh-theme-inkstone
+> **先确认目标 profile。** 桌面客户端（Electron）读的是 `desktop`，CLI 默认的 `web` 是另一套。
+> 装错 profile 的症状很难查：服务端完全正常（层栈、软链、patch 全对），但界面毫无变化。
 
-# 或从本地检出
-dsh plugin --profile web add E:\\github_own\\dsh-theme-inkstone
+**桌面端（`desktop` profile）**——该 profile 被 Electron 独占，CLI 会直接拒绝：
+
+```sh
+dsh plugin --profile desktop add E:\github_own\dsh-theme-inkstone
+# error: profile "desktop" is managed exclusively by the Electron application
 ```
 
-`dsh plugin` 是 pnpm 的转发器；装完它会把包名加进 `$DSH_HOME/profiles/web/package.json` 的
-`dsh.profile.bundles` 层栈。**然后重启 `dsh web` 才会生效**——运行中的进程不会重读层栈。
+只能走客户端界面：**设置 → 插件**，选从本地路径安装，填 `E:\github_own\dsh-theme-inkstone`。
+或者用 pnpm 直接改 `profiles/desktop/package.json`（把包加进 `dependencies` 与
+`dsh.profile.bundles`），再重启桌面端。
 
-卸载：`dsh plugin --profile web remove dsh-theme-inkstone`，`ctx.effect` 精确回收两层。
+**命令行 profile（`web`）**：
+
+```sh
+dsh plugin --profile web add E:\github_own\dsh-theme-inkstone
+```
+
+`dsh plugin` 是 pnpm 的转发器；装完它把包名加进该 profile 的 `dsh.profile.bundles` 层栈。
+**重启对应进程后生效**——运行中的进程不会重读层栈。
+
+卸载：`dsh plugin --profile <name> remove dsh-theme-inkstone`，`ctx.effect` 精确回收两层。
+desktop profile 同样要走界面或 pnpm。
+
+## 装好之后怎么确认
+
+控制台执行：
+
+```js
+getComputedStyle(document.body).getPropertyValue('--dsw-alias-bg-base')
+```
+
+- `#faf7f2`（浅色）/ `#191513`（深色）→ 生效
+- `#fff` / `#151517` → 未生效，先查是不是装错了 profile
+
+再查链接色 `--dsw-alias-link`：生效时是 `#c41002`（浅）/ `#db6150`（深），
+未生效时是基线的 `#4176e6` / `#7aaaff`。
+
 
 ## 开发
 
