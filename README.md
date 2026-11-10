@@ -106,9 +106,19 @@ dsh plugin --profile desktop add E:\github_own\dsh-theme-inkstone
 # error: profile "desktop" is managed exclusively by the Electron application
 ```
 
-只能走客户端界面：**设置 → 插件**，选从本地路径安装，填 `E:\github_own\dsh-theme-inkstone`。
-或者用 pnpm 直接改 `profiles/desktop/package.json`（把包加进 `dependencies` 与
-`dsh.profile.bundles`），再重启桌面端。
+实测可行的做法是**不经过 pnpm 重装**，只改清单 + 建软链：
+
+1. 编辑 `$DSH_HOME/profiles/desktop/package.json`：
+   - `dependencies` 里加 `"dsh-theme-inkstone": "link:E:/github_own/dsh-theme-inkstone"`
+   - `dsh.profile.bundles` 末尾加 `"dsh-theme-inkstone"`
+2. 在该 profile 的 `node_modules/` 下建一条软链指向本地检出：
+   `ln -s /e/github_own/dsh-theme-inkstone node_modules/dsh-theme-inkstone`
+   （Windows 下用 `mklink /D`，或 Git Bash 的 `ln -s`）
+3. 重启桌面客户端。
+
+**不要运行 `pnpm install`。** 改了清单后 pnpm 会判定 `node_modules` 需要重建
+（`hoisted` 模式下会清空整个目录），这个 profile 装着几十个插件，重装失败会导致客户端
+起不来——而本地链接根本不需要重装，软链一步就够了。
 
 **命令行 profile（`web`）**：
 
