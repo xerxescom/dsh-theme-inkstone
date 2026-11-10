@@ -79,7 +79,10 @@ const source = [
   ' */',
   'window.__ModuleLoader__.load({',
   `${T}id: ${q(pkg.name)},`,
-  `${T}factory: () => {`,
+  `${T}// \`require\` is the factory's parameter, not a global: the module table hands it`,
+  `${T}// aliases for the baseline runtime (react among them). Arrow-omitting it makes`,
+  `${T}// every require() inside throw a ReferenceError at apply time.`,
+  `${T}factory: (require) => {`,
   `${T}${T}var module = { exports: {} };`,
   `${T}${T}var exports = module.exports;`,
   `${T}${T}Object.defineProperty(exports, Symbol.toStringTag, { value: "Module" });`,
@@ -321,15 +324,34 @@ const source = [
   `${T}${T}${T}}`,
   `${T}${T}}`,
   '',
+  `${T}${T}/**
+${T}${T} * Run one step, and swallow its failure.
+${T}${T} *
+${T}${T} * A theme is a decoration: if the settings row cannot mount because a service
+${T}${T} * changed shape, the rest of the app must still start. Each registration is
+${T}${T} * boxed for that reason — an exception escaping apply() is attributed to the
+${T}${T} * whole plugin and takes the session down with it.
+${T}${T} * @param label - step name for the warning.
+${T}${T} * @param fn - the step.
+${T}${T} */
+${T}${T}function step(label, fn) {
+${T}${T}${T}try {
+${T}${T}${T}${T}fn();
+${T}${T}${T}} catch (error) {
+${T}${T}${T}${T}console.warn("[inkstone] " + label + " failed; continuing without it:", error);
+${T}${T}${T}}
+${T}${T}}`,
+  '',
   `${T}${T}function apply(ctx) {`,
   `${T}${T}${T}// Capture the built-in preference before 砚 can take over.`,
-  `${T}${T}${T}if (ORIGINAL_PREFERENCE.current === null) {`,
+  `${T}${T}${T}step("capture preference", () => {`,
+  `${T}${T}${T}${T}if (ORIGINAL_PREFERENCE.current !== null) return;`,
   `${T}${T}${T}${T}const preference = ctx.theme?.snapshot?.preference;`,
   `${T}${T}${T}${T}ORIGINAL_PREFERENCE.current = preference === "light" || preference === "dark" ? preference : "system";`,
-  `${T}${T}${T}}`,
-  `${T}${T}${T}applyThemes(ctx);`,
-  `${T}${T}${T}applySettingsRow(ctx);`,
-  `${T}${T}${T}applyBackground(ctx, globalThis.__INKSTONE_BACKGROUND__);`,
+  `${T}${T}${T}});`,
+  `${T}${T}${T}step("register themes", () => applyThemes(ctx));`,
+  `${T}${T}${T}step("register settings row", () => applySettingsRow(ctx));`,
+  `${T}${T}${T}step("background layer", () => applyBackground(ctx, globalThis.__INKSTONE_BACKGROUND__));`,
   `${T}${T}}`,
   '',
   `${T}${T}exports.apply = apply;`,

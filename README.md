@@ -132,6 +132,24 @@ dsh plugin --profile web add E:\github_own\dsh-theme-inkstone
 卸载：`dsh plugin --profile <name> remove dsh-theme-inkstone`，`ctx.effect` 精确回收两层。
 desktop profile 同样要走界面或 pnpm。
 
+## 开发时容易踩的两件事
+
+**一、`factory` 必须接收 `require`。** 模块表把 `require` 作为 factory 的参数传进来；
+写成 `factory: () => {}` 再在内部调用 `require("react")` 会抛 `ReferenceError`，
+而这次异常发生在 `apply` 期间，**直接把整个页面拖垮了**。
+
+```js
+// 对
+factory: (require) => { const React = require("react"); ... }
+// 错——require 不存在
+factory: () => { const React = require("react"); ... }
+```
+
+**二、`apply` 的每一步都要异常隔离。** 主题是装饰，设置行挂不上也不该让应用起不来。
+`apply` 里用 `step(label, fn)` 包住每一段，失败只 `console.warn`。
+
+这两条都由 `tools/check.mjs` 守着（"factory accepts require" / "apply steps are isolated"）。
+
 ## 怎么切换
 
 装好后打开 **设置 → 通用**，会多出一行「砚 · 主题方案」，一个下拉：

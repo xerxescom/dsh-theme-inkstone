@@ -176,6 +176,28 @@ check(
 // 6. Client wiring
 // --------------------------------------------------------------------------
 
+// --------------------------------------------------------------------------
+// 5b. Loader protocol: factory MUST receive `require`
+// --------------------------------------------------------------------------
+//
+// The module table passes `require` as the factory's argument. A factory written
+// as `() => {...}` that calls require() anywhere throws ReferenceError the first
+// time apply() runs — which took the whole page down once already.
+
+const factorySignature = /factory:\s*\(\s*require\s*\)\s*=>/.test(clientSource)
+check(
+  "factory accepts require",
+  factorySignature,
+  factorySignature ? "factory(require)" : "factory must take require as its parameter, not a bare () =>",
+)
+
+const applyGuarded = /function step\(label, fn\)/.test(clientSource) && /step\("register settings row"/.test(clientSource)
+check(
+  "apply steps are isolated",
+  applyGuarded,
+  applyGuarded ? "each step wrapped; a failure cannot abort plugin mount" : "apply() has an unguarded step - a throw there escapes into the host",
+)
+
 const wiring = [
   ['injects theme + slots', /const inject = \["theme", "slots"\]/.test(clientSource)],
   ['registers two themes', /ctx\.theme\.register\(/.test(clientSource) && /id: LIGHT_ID/.test(clientSource) && /id: DARK_ID/.test(clientSource)],
